@@ -74,3 +74,6 @@ class Vec2d:
 
     def normalize(self):
         return 1 / self.norm() * self
+
+#vec1 = Vec3d(1,1,1)
+#print(vec1)
