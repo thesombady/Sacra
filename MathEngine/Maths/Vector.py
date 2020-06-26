@@ -70,3 +70,20 @@ class vec3d:
 
     def normalize(self):
         return 1 / (self.norm()) * self
+
+class vec4d:
+
+    def __init__(self, x, y, z, w):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+        self.vector = (self.x, self.y, self.z, self.w)
+
+    def __truediv__(self, value):
+        if value != 0:
+            x, y, z, w = self.x / value, self.y / value, self.z / value, self.w / value
+        else:
+            pass
+    def __add__(self, other):
+        return vec4d(self.x + other.x, self.y + other.y, self.z + other.z, self.w + other.w)
