@@ -20,8 +20,7 @@ class Mainwindow(tk.Frame):
         self.slider1 = tk.Scale(from_=0, to = 100, orient = 'horizontal')
         self.slider1.pack()
 
-        #preview = tk.Toplevel()
-        #Name = Preview(preview)
+        Name = Loadingscreen()
 
     def get(self):
         print(self.slider1.get())
@@ -30,11 +29,18 @@ class Mainwindow(tk.Frame):
     def quit(self):
         self.root.destroy()
 
-class Preview(tk.Toplevel):
+class Loadingscreen(tk.Toplevel):
 
     def __init__(self, master = None):
         super().__init__(master)
         self.master = master
+        self.Canvas = tk.Canvas(width = 300, height = 300)
+        self.Canvas.pack()
+
+
+    def initalize(self):
+        pass
+
 
 
 root = tk.Tk()
