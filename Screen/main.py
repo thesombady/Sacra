@@ -16,6 +16,8 @@ class Application(tk.Frame):
         self.currentfile = None #Will use this later on.
         self.master.title("Sacra Game Engine")
         self.initalize()
+        self.Update()
+
 
 
     def initalize(self):
@@ -29,22 +31,36 @@ class Application(tk.Frame):
         menubar = tk.Menu(self.master)
 
         filemenu = tk.Menu(menubar)
+        editmenu = tk.Menu(menubar)
+        viewmenu = tk.Menu(menubar)
         filemenu.add_command(label = "Open", command = self.openfile)
         filemenu.add_command(label = "Save", )
         filemenu.add_command(label = "Exit", command = self.master.destroy)
         filemenu.add_command(label = "New", command = self.newfile)
 
-        menubar.add_cascade(label="File", menu=filemenu)
+        menubar.add_cascade(label = "File", menu = filemenu)
+        #Add space and breaker
+
+        editmenu.add_command(label = "Add vertex")
+        menubar.add_cascade(label = 'Edit', menu = editmenu) #Add edit commands
+        #Add space and breaker
+
+        viewmenu.add_command(label = "View object")
+        viewmenu.add_command(label = "Inspect object")
+        menubar.add_cascade(label = "View", menu = viewmenu) #Add View commands
 
         self.master.config(menu=menubar)
 
         size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
         size.pack()
 
+        #self.Canvas1 = tk.Canvas(master = self.master, width = int(self.width / 2), height = int(2 * self.height / 3), bg = 'black')
+        #self.Canvas1.pack(side = 'right')
+
 
     def openfile(self):
         file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves',
-        title = 'Select a file')
+        title = 'Select a file') # Change Position
         self.currentfile = file
 
     def newfile(self):
@@ -70,7 +86,9 @@ class Application(tk.Frame):
             Label.pack()
 
     def Update(self):
-        print("hello")
+        print("Hello")
+        self.master.after(1000, self.Update)#Works so it continuesly updates
+
 
 
 #print(dir(tk))
