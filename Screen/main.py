@@ -3,7 +3,7 @@ from tkinter import filedialog
 import os
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
-
+import functools
 
 
 
@@ -46,7 +46,7 @@ class Application(tk.Frame):
         menubar.add_cascade(label = "File", menu = filemenu)
         #Add space and breaker
 
-        editmenu.add_command(label = "Add vertex")
+        editmenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
         menubar.add_cascade(label = 'Edit', menu = editmenu) #Add edit commands
         #Add space and breaker
 
@@ -93,7 +93,7 @@ class Application(tk.Frame):
     def Update(self):
 
         print("Hello")
-        self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
+        #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
 
 
     def SaveFile(self):
@@ -116,6 +116,21 @@ class Application(tk.Frame):
             label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being C")
             label.pack()
 
+    def AddVertexMenu(self):
+        self.AddVertexInterface = tk.Toplevel()
+        Label = tk.Label(master = self.AddVertexInterface, text = "Number of Verticies")
+        Label.pack()
+        self.SaveNumberOfVerticies = tk.Entry(master = self.AddVertexInterface)
+        self.SaveNumberOfVerticies.pack()
+        button = tk.Button(master = self.AddVertexInterface, text = "Submit", command = self.GetnumberOfVerticies)
+        button.pack()
+
+    def GetnumberOfVerticies(self):
+        NumberOfVerticies = self.SaveNumberOfVerticies.get()
+        self.AddVertex(NumberOfVerticies)
+        self.AddVertexInterface.destroy()
+
+
 
     def SelectedVertex(self):
         pass #Either label verticies or click, paint the vertex red. so it is selected, and then type cooridates in 3d vector
@@ -127,6 +142,7 @@ class Application(tk.Frame):
         pass #Using selected vertex function we'll be able to move that vertex to the new Position
 
     def AddVertex(self, number = 1):
+        print(number) #Used for testing purposes
         pass #Select how mamy verticies that should be added.
 
 
