@@ -8,6 +8,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 class Application(tk.Frame):
 
+    updaterate = 1000 # Will use in update
+
     def __init__(self, master = None, width = 1000, height = 800):
         super().__init__(master)
         self.master = master
@@ -25,7 +27,7 @@ class Application(tk.Frame):
         img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
         label = tk.Label(image = img)
         label.image = img
-        label.pack()
+        label.grid(row = 1)
 
 
         menubar = tk.Menu(self.master)
@@ -51,11 +53,16 @@ class Application(tk.Frame):
 
         self.master.config(menu=menubar)
 
-        size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
-        size.pack()
+
 
         #self.Canvas1 = tk.Canvas(master = self.master, width = int(self.width / 2), height = int(2 * self.height / 3), bg = 'black')
         #self.Canvas1.pack(side = 'right')
+
+        self.Canvas = tk.Canvas(master = self.master, bg = 'gray', width = int(self.width / 2), height = self.height)
+        self.Canvas.grid(row = 1, column = 2)
+        #Look up Columnspan
+        size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
+        size.grid(row = 0, column = 1)
 
 
     def openfile(self):
@@ -86,8 +93,9 @@ class Application(tk.Frame):
             Label.pack()
 
     def Update(self):
+
         print("Hello")
-        self.master.after(1000, self.Update)#Works so it continuesly updates
+        self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
 
 
 
@@ -95,3 +103,4 @@ class Application(tk.Frame):
 root = tk.Tk()
 app = Application(root)
 app.mainloop()
+# file = app.currentfile #Can use this to place
