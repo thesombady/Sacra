@@ -71,6 +71,9 @@ class vec3d:
     def normalize(self):
         return 1 / (self.norm()) * self
 
+
+list1 = [1,1]
+print(list1)
 class vec4d:
 
     def __init__(self, x, y, z, w):

@@ -68,10 +68,13 @@ class CreateNewFile(tk.Toplevel):
 
     def getname(self):
         name = self.name.get()
+        print(name)
+        """
         if name is in os.listdir(self.path):
             label = tk.Label(text = "Name is occupied")
         else:
             os.path.join(self.path, paths)
+        """
 
 
 root = tk.Tk()

@@ -29,17 +29,6 @@ class Mainwindow(tk.Frame):
     def quit(self):
         self.root.destroy()
 
-class Loadingscreen(tk.Toplevel):
-
-    def __init__(self, master = None):
-        super().__init__(master)
-        self.master = master
-        self.Canvas = tk.Canvas(width = 300, height = 300)
-        self.Canvas.pack()
-
-
-    def initalize(self):
-        pass
 
 
 
