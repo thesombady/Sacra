@@ -8,5 +8,5 @@ As of yet there is no usage, later on you'll be able to use the UI which is unde
 python main.py
 ```
 
-#Contribute
+# Contribute
 Given this is open-source feel free to propose changes and/or contribute by your own. If you want to contribute to my PayPal to keep this project as up to date as possible, feel free to toss a coin to "https://www.paypal.me/aristotes".
