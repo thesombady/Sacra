@@ -1,15 +1,17 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
-import json
+import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
-import time
-from concurrent.futures import ThreadPoolExecutor
+
+
 
 
 class Application(tk.Frame):
 
     updaterate = 1000 # Will use in update
+    CurrentMesh = {} #Don't override this, will use it to store the veritices of an object, such as a cube or a sphere, and later
+    #on also save it inside SaveCurrentFile function
 
     def __init__(self, master = None, width = 1000, height = 800):
         super().__init__(master)
@@ -115,10 +117,17 @@ class Application(tk.Frame):
 
 
     def SelectedVertex(self):
-        pass #Either label verticies or click
+        pass #Either label verticies or click, paint the vertex red. so it is selected, and then type cooridates in 3d vector
 
     def ScaleMesh(self, scalar):
         pass #Will take the value of Scale widget.
+
+    def MoveVertex(self, vector):
+        pass #Using selected vertex function we'll be able to move that vertex to the new Position
+
+    def AddVertex(self, number = 1):
+        pass #Select how mamy verticies that should be added.
+
 
 
 #print(dir(tk))
