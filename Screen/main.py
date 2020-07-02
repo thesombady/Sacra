@@ -18,7 +18,8 @@ class Application(tk.Frame):
         self.master = master
         self.width = width
         self.height = height
-        self.currentfile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
+        self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
+        self.CurrentVertex = None
         self.master.title("Sacra Game Engine")
         self.initalize()
         self.Update()
@@ -35,24 +36,24 @@ class Application(tk.Frame):
 
         menubar = tk.Menu(self.master)
 
-        filemenu = tk.Menu(menubar)
-        editmenu = tk.Menu(menubar)
-        viewmenu = tk.Menu(menubar)
-        filemenu.add_command(label = "Open", command = self.openfile)
-        filemenu.add_command(label = "Save", command = self.SaveFile)
-        filemenu.add_command(label = "Exit", command = self.master.destroy)
-        filemenu.add_command(label = "New", command = self.newfile)
+        FileMenu = tk.Menu(menubar)
+        EditMenu = tk.Menu(menubar)
+        ViewMenu = tk.Menu(menubar)
+        FileMenu.add_command(label = "Open", command = self.OpenFile)
+        FileMenu.add_command(label = "Save", command = self.SaveFile)
+        FileMenu.add_command(label = "Exit", command = self.master.destroy)
+        FileMenu.add_command(label = "New", command = self.NewFile)
 
-        menubar.add_cascade(label = "File", menu = filemenu)
+        menubar.add_cascade(label = "File", menu = FileMenu)
         #Add space and breaker
 
-        editmenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
-        menubar.add_cascade(label = 'Edit', menu = editmenu) #Add edit commands
+        EditMenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
+        menubar.add_cascade(label = 'Edit', menu = EditMenu) #Add edit commands
         #Add space and breaker
 
-        viewmenu.add_command(label = "View object")
-        viewmenu.add_command(label = "Inspect object")
-        menubar.add_cascade(label = "View", menu = viewmenu) #Add View commands
+        ViewMenu.add_command(label = "View object")
+        ViewMenu.add_command(label = "Inspect object")
+        menubar.add_cascade(label = "View", menu = ViewMenu) #Add View commands
 
         self.master.config(menu=menubar)
 
@@ -63,12 +64,12 @@ class Application(tk.Frame):
         size.grid(row = 0, column = 1)
 
 
-    def openfile(self):
+    def OpenFile(self):
         file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves',
         title = 'Select a file') # Change Position
-        self.currentfile = file
+        self.CurrentFile = file
 
-    def newfile(self):
+    def NewFile(self):
         self.NewFileInterface = tk.Toplevel()
         Label = tk.Label(master = self.NewFileInterface, text = "Enter name of file")
         Label.pack()
@@ -84,7 +85,7 @@ class Application(tk.Frame):
             filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves', file)
             with open(file = f'{filename}.json', mode = "w") as activefile: # Change to json file reading & writing
                 activefile.write(f'{file}' + ' = {}') # Might change this in the end, might be easier to just make .py and add verticies
-            self.currentfile = file
+            self.CurrentFile = file
             self.NewFileInterface.destroy()
         else:
             Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
@@ -113,7 +114,7 @@ class Application(tk.Frame):
                 activefile.write('Test')
             self.SavefileInterface.destroy()
         else:
-            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being C")
+            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being Cube and Sphere")
             label.pack()
 
     def AddVertexMenu(self):
@@ -130,20 +131,29 @@ class Application(tk.Frame):
         self.AddVertex(NumberOfVerticies)
         self.AddVertexInterface.destroy()
 
+    def AddVertex(self, number = 1):
+        print(number) #Used for testing purposes
+        pass #Select how mamy verticies that should be added.
+
+    def MoveVertex(self, vector):
+        pass #Using selected vertex function we'll be able to move that vertex to the new Position
+
 
 
     def SelectedVertex(self):
         pass #Either label verticies or click, paint the vertex red. so it is selected, and then type cooridates in 3d vector
 
+    def RemoveSelectedVertex(self):
+        pass #Remove a Vertex.
+
+
+
     def ScaleMesh(self, scalar):
         pass #Will take the value of Scale widget.
 
-    def MoveVertex(self, vector):
-        pass #Using selected vertex function we'll be able to move that vertex to the new Position
 
-    def AddVertex(self, number = 1):
-        print(number) #Used for testing purposes
-        pass #Select how mamy verticies that should be added.
+
+
 
 
 
