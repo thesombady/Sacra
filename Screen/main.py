@@ -3,6 +3,7 @@ from tkinter import filedialog
 import os
 from PIL import Image, ImageTk
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 
 class Application(tk.Frame):
@@ -75,6 +76,4 @@ class Application(tk.Frame):
 #print(dir(tk))
 root = tk.Tk()
 app = Application(root)
-while :
-    app.Update()
-    app.mainloop()
+app.mainloop()
