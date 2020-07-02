@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
+import json
 from PIL import Image, ImageTk
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -15,7 +16,7 @@ class Application(tk.Frame):
         self.master = master
         self.width = width
         self.height = height
-        self.currentfile = None #Will use this later on.
+        self.currentfile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.master.title("Sacra Game Engine")
         self.initalize()
         self.Update()
@@ -36,7 +37,7 @@ class Application(tk.Frame):
         editmenu = tk.Menu(menubar)
         viewmenu = tk.Menu(menubar)
         filemenu.add_command(label = "Open", command = self.openfile)
-        filemenu.add_command(label = "Save", )
+        filemenu.add_command(label = "Save", command = self.SaveFile)
         filemenu.add_command(label = "Exit", command = self.master.destroy)
         filemenu.add_command(label = "New", command = self.newfile)
 
@@ -71,23 +72,23 @@ class Application(tk.Frame):
         self.currentfile = file
 
     def newfile(self):
-        self.NewFileApp = tk.Toplevel()
-        Label = tk.Label(master = self.NewFileApp, text = "Enter name of file")
+        self.NewFileInterface = tk.Toplevel()
+        Label = tk.Label(master = self.NewFileInterface, text = "Enter name of file")
         Label.pack()
-        self.Entry = tk.Entry(master = self.NewFileApp)
+        self.Entry = tk.Entry(master = self.NewFileInterface)
         self.Entry.pack()
-        Button = tk.Button(master = self.NewFileApp, text = "Press to save", command = self.SaveNewFile)
+        Button = tk.Button(master = self.NewFileInterface, text = "Press to save", command = self.SaveNewFile)
         Button.pack()
 
 
     def SaveNewFile(self):
         file = self.Entry.get()
-        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'):
+        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'): #Add so it wont take the name of .json because otherwise it wont work
             filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves', file)
-            with open(file = f'{filename}', mode = "w", ) as activefile:
-                activefile.write(f'{file}')
+            with open(file = f'{filename}.json', mode = "w") as activefile: # Change to json file reading & writing
+                activefile.write(f'{file}' + ' = {}') # Might change this in the end, might be easier to just make .py and add verticies
             self.currentfile = file
-            self.NewFileApp.destroy()
+            self.NewFileInterface.destroy()
         else:
             Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
             Label.pack()
@@ -96,6 +97,26 @@ class Application(tk.Frame):
 
         print("Hello")
         self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
+
+
+    def SaveFile(self):
+        self.SavefileInterface = tk.Toplevel()
+        Label = tk.Label(master, self.SavefileInterface, text = "Name object")
+        Label.pack()
+        self.SaveEntry = tk.Entry(master = self.SaveFileInterface)
+        self.SaveEntry.pack()
+        button = tk.Button(master = self.SavefileInterface, command = self.SaveCurrentFile)
+
+
+    def SaveCurrentFile(self):
+        name = self.SaveEntry.get()
+        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'):
+            with open(file = f'{name}.json', mode = "w") as activefile:
+                activefile.write('Test')
+            self.SavefileInterface.destroy()
+        else:
+            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles")
+            label.pack()
 
 
 
