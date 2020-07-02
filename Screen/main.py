@@ -106,13 +106,14 @@ class Application(tk.Frame):
 
 
     def SaveCurrentFile(self):
-        name = self.SaveEntry.get()
+        file = self.SaveEntry.get()
         if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'):
+            name = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves', file)
             with open(file = f'{name}.json', mode = "w") as activefile:
                 activefile.write('Test')
             self.SavefileInterface.destroy()
         else:
-            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles")
+            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being C")
             label.pack()
 
 
