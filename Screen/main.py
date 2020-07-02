@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 from PIL import Image, ImageTk
+import time
 
 
 class Application(tk.Frame):
@@ -14,6 +15,7 @@ class Application(tk.Frame):
         self.currentfile = None #Will use this later on.
         self.master.title("Sacra Game Engine")
         self.initalize()
+
 
     def initalize(self):
         self.master.geometry(f'{self.width}x{self.height}')
@@ -35,7 +37,8 @@ class Application(tk.Frame):
 
         self.master.config(menu=menubar)
 
-
+        size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
+        size.pack()
 
 
     def openfile(self):
@@ -65,8 +68,13 @@ class Application(tk.Frame):
             Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
             Label.pack()
 
+    def Update(self):
+        print("hello")
 
 
+#print(dir(tk))
 root = tk.Tk()
 app = Application(root)
-app.mainloop()
+while :
+    app.Update()
+    app.mainloop()
