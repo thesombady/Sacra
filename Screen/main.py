@@ -66,7 +66,7 @@ class Application(tk.Frame):
 
     def OpenFile(self):
         file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves',
-        title = 'Select a file') # Change Position
+        title = 'Select a file') # Change Position to os.
         self.CurrentFile = file
 
     def NewFile(self):
@@ -128,7 +128,10 @@ class Application(tk.Frame):
 
     def GetnumberOfVerticies(self):
         NumberOfVerticies = self.SaveNumberOfVerticies.get()
-        self.AddVertex(NumberOfVerticies)
+        if NumberOfVerticies != 0: #This does not work, its either a blankspace line or space. Thus we'll use utf8
+            self.AddVertex(NumberOfVerticies)
+        else:
+            self.AddVertex(number = 1)
         self.AddVertexInterface.destroy()
 
     def AddVertex(self, number = 1):
@@ -153,11 +156,7 @@ class Application(tk.Frame):
 
 
 
-
-
-
-
-#print(dir(tk))
+#os.getcwd()
 root = tk.Tk()
 app = Application(root)
 app.mainloop()
