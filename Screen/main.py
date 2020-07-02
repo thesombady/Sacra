@@ -54,11 +54,6 @@ class Application(tk.Frame):
 
         self.master.config(menu=menubar)
 
-
-
-        #self.Canvas1 = tk.Canvas(master = self.master, width = int(self.width / 2), height = int(2 * self.height / 3), bg = 'black')
-        #self.Canvas1.pack(side = 'right')
-
         self.Canvas = tk.Canvas(master = self.master, bg = 'gray', width = int(self.width / 2), height = self.height)
         self.Canvas.grid(row = 1, column = 2)
         #Look up Columnspan
@@ -118,6 +113,12 @@ class Application(tk.Frame):
             label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles")
             label.pack()
 
+
+    def SelectedVertex(self):
+        pass #Either label verticies or click
+
+    def ScaleMesh(self, scalar):
+        pass #Will take the value of Scale widget.
 
 
 #print(dir(tk))
