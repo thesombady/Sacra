@@ -19,6 +19,7 @@ class Application(tk.Frame):
         self.master = master
         self.width = width
         self.height = height
+        self.Currentdirectory = os.getcwd() # Will use this later on to obtain versitile machine usage.
         self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.CurrentVertex = None
         self.master.title("Sacra Game Engine")
@@ -29,6 +30,7 @@ class Application(tk.Frame):
 
     def initalize(self):
         self.master.geometry(f'{self.width}x{self.height}')
+        self.master.iconbitmap('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/sacra_kYY_icon.ico')# change location
 
         menubar = tk.Menu(self.master)
 
