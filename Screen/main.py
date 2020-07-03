@@ -4,6 +4,7 @@ import os
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
 import functools
+import time
 
 
 
@@ -28,11 +29,6 @@ class Application(tk.Frame):
 
     def initalize(self):
         self.master.geometry(f'{self.width}x{self.height}')
-        img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
-        label = tk.Label(image = img)
-        label.image = img
-        label.grid(row = 1)
-
 
         menubar = tk.Menu(self.master)
 
@@ -63,6 +59,9 @@ class Application(tk.Frame):
         size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
         size.grid(row = 0, column = 1)
 
+        self.StartUpPage() #Fix Fade on this function
+
+
 
     def OpenFile(self):
         file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves',
@@ -91,7 +90,16 @@ class Application(tk.Frame):
             Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
             Label.pack()
 
-    def Update(self):
+    def StartUpPage(self):
+        StartUpPageInterface = tk.Toplevel(master = self.master)
+        img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
+        label = tk.Label(master = StartUpPageInterface, image = img)
+        label.image = img
+        label.pack()
+        StartUpPageInterface.after(5000, StartUpPageInterface.destroy)
+        StartUpPageInterface.attributes('-topmost', True)
+
+    def Update(self): #Implement static and contionus
 
         print("Hello")
         #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
