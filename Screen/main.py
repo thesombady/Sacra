@@ -5,7 +5,9 @@ import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
 import functools
 import time
+from concurrent.futures import ProcessPoolExecutor
 #from ..Audio import PlaySound
+#from ..Audio.PlayAudio import PlaySound
 
 
 
@@ -63,6 +65,21 @@ class Application(tk.Frame):
         size.grid(row = 0, column = 1)
 
         self.StartUpPage() #Fix Fade on this function
+        """
+        with ProcessPoolExecutor() as executor:
+            executor.submit(self.StartUpPage)
+            executor.submit(Playsound().play('Exodus.mp3'))
+
+        """
+
+    def StartUpPage(self):
+        StartUpPageInterface = tk.Toplevel(master = self.master)
+        img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
+        label = tk.Label(master = StartUpPageInterface, image = img)
+        label.image = img
+        label.pack()
+        StartUpPageInterface.after(5000, StartUpPageInterface.destroy)
+        StartUpPageInterface.attributes('-topmost', True)
 
 
 
@@ -93,14 +110,6 @@ class Application(tk.Frame):
             Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
             Label.pack()
 
-    def StartUpPage(self):
-        StartUpPageInterface = tk.Toplevel(master = self.master)
-        img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
-        label = tk.Label(master = StartUpPageInterface, image = img)
-        label.image = img
-        label.pack()
-        StartUpPageInterface.after(5000, StartUpPageInterface.destroy)
-        StartUpPageInterface.attributes('-topmost', True)
 
     def Update(self): #Implement static and contionus
 
@@ -167,6 +176,13 @@ class Application(tk.Frame):
 
     def Sound(self, NameOfFile):
         pass #Using the import we can play any sound
+
+    def GetMousePosition(self): #Implement, to have SelectVertex function
+        x,y = None, None
+        return None
+
+    def SelectVertex(self): #Will be implemented in GetMousePosition
+        pass
 
 
 
