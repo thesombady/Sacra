@@ -67,7 +67,7 @@ class Application(tk.Frame):
 
 
     def OpenFile(self):
-        file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves',
+        file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Saves',
         title = 'Select a file') # Change Position to os.
         self.CurrentFile = file
 
@@ -83,8 +83,8 @@ class Application(tk.Frame):
 
     def SaveNewFile(self):
         file = self.Entry.get()
-        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'): #Add so it wont take the name of .json because otherwise it wont work
-            filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves', file)
+        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'): #Add so it wont take the name of .json because otherwise it wont work
+            filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
             with open(file = f'{filename}.json', mode = "w") as activefile: # Change to json file reading & writing
                 activefile.write(f'{file}' + ' = {}') # Might change this in the end, might be easier to just make .py and add verticies
             self.CurrentFile = file
@@ -119,8 +119,8 @@ class Application(tk.Frame):
 
     def SaveCurrentFile(self):
         file = self.SaveEntry.get()
-        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves'):
-            name = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Saves', file)
+        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'):
+            name = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
             with open(file = f'{name}.json', mode = "w") as activefile:
                 activefile.write('Test')
             self.SavefileInterface.destroy()
