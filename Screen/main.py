@@ -6,8 +6,13 @@ from PIL import Image, ImageTk
 import functools
 import time
 from concurrent.futures import ProcessPoolExecutor
+from tkinter import ttk
 #from ..Audio import PlaySound
 #from ..Audio.PlayAudio import PlaySound
+#sys.path.append?
+from ..Audio import PlayAudio
+
+
 
 
 
@@ -19,6 +24,8 @@ class Application(tk.Frame):
 
     def __init__(self, master = None, width = 1000, height = 800):
         super().__init__(master)
+        style = ttk.Style()
+        style.configure("BW.TLabel", foreground="black", background="white", font = ('Helvetica', 12))
         self.master = master
         self.width = width
         self.height = height
@@ -90,9 +97,9 @@ class Application(tk.Frame):
 
     def NewFile(self):
         self.NewFileInterface = tk.Toplevel()
-        Label = tk.Label(master = self.NewFileInterface, text = "Enter name of file")
+        Label = ttk.Label(master = self.NewFileInterface, text = "Enter name of file")
         Label.pack()
-        self.Entry = tk.Entry(master = self.NewFileInterface)
+        self.Entry = ttk.Entry(master = self.NewFileInterface)
         self.Entry.pack()
         Button = tk.Button(master = self.NewFileInterface, text = "Press to save", command = self.SaveNewFile)
         Button.pack()
@@ -107,7 +114,7 @@ class Application(tk.Frame):
             self.CurrentFile = file
             self.NewFileInterface.destroy()
         else:
-            Label = tk.Label(master = self.NewFileApp, text = 'File already exits')
+            Label = ttk.Label(master = self.NewFileApp, text = 'File already exits')
             Label.pack()
 
 
@@ -119,9 +126,9 @@ class Application(tk.Frame):
 
     def SaveFile(self):
         self.SavefileInterface = tk.Toplevel()
-        Label = tk.Label(master, self.SavefileInterface, text = "Name object")
+        Label = ttk.Label(master, self.SavefileInterface, text = "Name object")
         Label.pack()
-        self.SaveEntry = tk.Entry(master = self.SaveFileInterface)
+        self.SaveEntry = ttk.Entry(master = self.SaveFileInterface)
         self.SaveEntry.pack()
         button = tk.Button(master = self.SavefileInterface, command = self.SaveCurrentFile)
 
@@ -134,16 +141,16 @@ class Application(tk.Frame):
                 activefile.write('Test')
             self.SavefileInterface.destroy()
         else:
-            label = tk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being Cube and Sphere")
+            label = ttk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being Cube and Sphere")
             label.pack()
 
     def AddVertexMenu(self):
         self.AddVertexInterface = tk.Toplevel()
-        Label = tk.Label(master = self.AddVertexInterface, text = "Number of Verticies")
+        Label = ttk.Label(master = self.AddVertexInterface, text = "Number of Verticies")
         Label.pack()
-        self.SaveNumberOfVerticies = tk.Entry(master = self.AddVertexInterface)
+        self.SaveNumberOfVerticies = ttk.Entry(master = self.AddVertexInterface)
         self.SaveNumberOfVerticies.pack()
-        button = tk.Button(master = self.AddVertexInterface, text = "Submit", command = self.GetnumberOfVerticies)
+        button = ttk.Button(master = self.AddVertexInterface, text = "Submit", command = self.GetnumberOfVerticies)
         button.pack()
 
     def GetnumberOfVerticies(self):
@@ -187,6 +194,7 @@ class Application(tk.Frame):
 
 
 print(os.getcwd())
+
 root = tk.Tk()
 app = Application(root)
 app.mainloop()

@@ -10,5 +10,3 @@ class PlaySound:
     def Play(self, NameOfFile):
         path = os.path.join(self.Generalpath, NameOfFile)
         os.system(f'afplay {path}')
-
-LoginSound = PlaySound().Play('Exodus.mp3')
