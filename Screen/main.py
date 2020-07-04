@@ -30,6 +30,7 @@ class Application(tk.Frame):
         self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.CurrentVertex = None
         self.master.title("Sacra Game Engine")
+        #self.bind_all('<Button-1>', self.CallBack)
         self.initalize()
         self.Update()
 
@@ -57,13 +58,13 @@ class Application(tk.Frame):
         #Add space and breaker
 
         ViewMenu.add_command(label = "View object")
-        ViewMenu.add_command(label = "Inspect object")
+        ViewMenu.add_command(label = "Inspect object", command = self.ViewObject) #
         menubar.add_cascade(label = "View", menu = ViewMenu) #Add View commands
 
         self.master.config(menu=menubar)
 
         self.Canvas = tk.Canvas(master = self.master, bg = 'gray', width = int(self.width / 2), height = self.height)
-        self.Canvas.grid(row = 1, column = 2)
+        self.Canvas.grid(row = 1, column = 5) # Fix the Layout.
         #Look up Columnspan
         size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
         size.grid(row = 0, column = 1)
@@ -85,13 +86,12 @@ class Application(tk.Frame):
         label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
         label.pack()
-        StartUpPageInterface.after(5000, StartUpPageInterface.destroy)
+        StartUpPageInterface.after(1000, StartUpPageInterface.destroy)
         StartUpPageInterface.attributes('-topmost', True)
 
     def Update(self): #Implement static and contionus
         self.ActiveFile.configure(text = self.CurrentFile)
-
-        print("Hello")
+        #if self.CurrentFile != None:
         #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
 
 
@@ -166,7 +166,7 @@ class Application(tk.Frame):
             self.AddVertex(number = 1)
         self.AddVertexInterface.destroy()
 
-    def AddVertex(self, number = 1):
+    def AddVertex(self, number = 1):#MenuFunction
         print(number) #Used for testing purposes
         pass #Select how mamy verticies that should be added.
 
@@ -193,8 +193,21 @@ class Application(tk.Frame):
         x,y = None, None
         return None
 
+
+    def CallBack(self):
+        print(f'Clicked at ({self.event.x}, {self.event.y}')
+
+
+
     def SelectVertex(self): #Will be implemented in GetMousePosition
         pass
+
+
+    def ViewObject(self): #MenuFunction
+        self.ViewObjectInterface = tk.Toplevel()
+        Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
+        Button.pack()
+
 
 
 
