@@ -10,10 +10,7 @@ from tkinter import ttk
 #from ..Audio import PlaySound
 #from ..Audio.PlayAudio import PlaySound
 #sys.path.append?
-from ..Audio import PlayAudio
-
-
-
+#import MathEngine #Does not work, problem based on the same as Audio. If audio gets fixed, do the same for Mathengine and do 'as me'
 
 
 class Application(tk.Frame):
@@ -75,9 +72,12 @@ class Application(tk.Frame):
         """
         with ProcessPoolExecutor() as executor:
             executor.submit(self.StartUpPage)
-            executor.submit(Playsound().play('Exodus.mp3'))
-
+            executor.submit(Audio.Playsound().play('Exodus.mp3'))
         """
+        self.ActiveFile = ttk.Label(master = self.master, text = self.CurrentFile)
+        self.ActiveFile.grid(row = 0, column = 2)
+
+
 
     def StartUpPage(self):
         StartUpPageInterface = tk.Toplevel(master = self.master)
@@ -88,12 +88,19 @@ class Application(tk.Frame):
         StartUpPageInterface.after(5000, StartUpPageInterface.destroy)
         StartUpPageInterface.attributes('-topmost', True)
 
+    def Update(self): #Implement static and contionus
+        self.ActiveFile.configure(text = self.CurrentFile)
+
+        print("Hello")
+        #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
+
 
 
     def OpenFile(self):
         file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Saves',
         title = 'Select a file') # Change Position to os.
         self.CurrentFile = file
+        self.Update()
 
     def NewFile(self):
         self.NewFileInterface = tk.Toplevel()
@@ -107,21 +114,17 @@ class Application(tk.Frame):
 
     def SaveNewFile(self):
         file = self.Entry.get()
-        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'): #Add so it wont take the name of .json because otherwise it wont work
-            filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
+        test = file + '.json'
+        filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
+        if test not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'): #Add so it wont take the name of .json because otherwise it wont work
             with open(file = f'{filename}.json', mode = "w") as activefile: # Change to json file reading & writing
                 activefile.write(f'{file}' + ' = {}') # Might change this in the end, might be easier to just make .py and add verticies
-            self.CurrentFile = file
+            self.CurrentFile = filename + '.json'
             self.NewFileInterface.destroy()
         else:
-            Label = ttk.Label(master = self.NewFileApp, text = 'File already exits')
+            Label = ttk.Label(master = self.NewFileInterface, text = 'File already exits')
             Label.pack()
-
-
-    def Update(self): #Implement static and contionus
-
-        print("Hello")
-        #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
+        self.Update()
 
 
     def SaveFile(self):
@@ -131,6 +134,7 @@ class Application(tk.Frame):
         self.SaveEntry = ttk.Entry(master = self.SaveFileInterface)
         self.SaveEntry.pack()
         button = tk.Button(master = self.SavefileInterface, command = self.SaveCurrentFile)
+        self.Update()
 
 
     def SaveCurrentFile(self):
@@ -143,6 +147,7 @@ class Application(tk.Frame):
         else:
             label = ttk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being Cube and Sphere")
             label.pack()
+        self.Update()
 
     def AddVertexMenu(self):
         self.AddVertexInterface = tk.Toplevel()
