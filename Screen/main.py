@@ -5,6 +5,7 @@ import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
 import functools
 import time
+#from ..Audio import PlaySound
 
 
 
@@ -164,9 +165,12 @@ class Application(tk.Frame):
     def ScaleMesh(self, scalar):
         pass #Will take the value of Scale widget.
 
+    def Sound(self, NameOfFile):
+        pass #Using the import we can play any sound
 
 
-#os.getcwd()
+
+print(os.getcwd())
 root = tk.Tk()
 app = Application(root)
 app.mainloop()

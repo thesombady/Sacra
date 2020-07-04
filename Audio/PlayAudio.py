@@ -2,12 +2,13 @@ import os
 import sys
 from concurrent.futures import ProcessPoolExecutor
 
-def Hello():
-    print('Hello')
 
-def PlayLoginSound():
-    os.system('afplay /Users/andreasevensen/Documents/GitHub/Sacra/Audio/AudioFiles/Exodus.mp3')
+class PlaySound:
+    def __init__(self):
+        self.Generalpath = '/Users/andreasevensen/Documents/GitHub/Sacra/Audio/AudioFiles/' # Change location settings
 
-with ProcessPoolExecutor() as exector:
-    future1 = exector.submit(PlayLoginSound)
-    future2 = exector.submit(Hello)
+    def Play(self, NameOfFile):
+        path = os.path.join(self.Generalpath, NameOfFile)
+        os.system(f'afplay {path}')
+
+LoginSound = PlaySound().Play('Exodus.mp3')
