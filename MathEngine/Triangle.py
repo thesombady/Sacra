@@ -15,7 +15,7 @@ class triangle:
         return self.set[index]
 
 
-class mesh:
+class MeshObject:
     def __init__(self, *args):
         self.args = args
         for arg in args:
