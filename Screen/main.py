@@ -12,7 +12,6 @@ from tkinter import ttk
 #sys.path.append?
 #import MathEngine #Does not work, problem based on the same as Audio. If audio gets fixed, do the same for Mathengine and do 'as me'
 
-
 class Application(tk.Frame):
 
     updaterate = 1000 # Will use in update
@@ -26,10 +25,11 @@ class Application(tk.Frame):
         self.master = master
         self.width = width
         self.height = height
-        self.Currentdirectory = os.getcwd() # Will use this later on to obtain versitile machine usage.
+        self.CurrentDirectory = os.getcwd() # Will use this later on to obtain versitile machine usage.
         self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.CurrentVertex = None
         self.master.title("Sacra Game Engine")
+        self.MeshDirectory = os.path.join(self.CurrentDirectory, 'Saves')
         #self.bind_all('<Button-1>', self.CallBack)
         self.initalize()
         self.Update()
@@ -38,7 +38,8 @@ class Application(tk.Frame):
 
     def initalize(self):
         self.master.geometry(f'{self.width}x{self.height}')
-        self.master.iconbitmap('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/sacra_kYY_icon.ico')# change location
+        IconPath = os.path.join(self.CurrentDirectory, 'Screen/sacra_kYY_icon.ico')
+        self.master.iconbitmap(IconPath)
 
         menubar = tk.Menu(self.master)
 
@@ -82,7 +83,8 @@ class Application(tk.Frame):
 
     def StartUpPage(self):
         StartUpPageInterface = tk.Toplevel(master = self.master)
-        img = ImageTk.PhotoImage(Image.open('/Users/andreasevensen/Documents/GitHub/Sacra/Screen/Sacra.png'))
+        PhotoPath = os.path.join(self.CurrentDirectory, 'Screen/Sacra.png')
+        img = ImageTk.PhotoImage(Image.open(PhotoPath))
         label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
         label.pack()
@@ -97,8 +99,8 @@ class Application(tk.Frame):
 
 
     def OpenFile(self):
-        file = filedialog.askopenfilename(initialdir = '/Users/andreasevensen/Documents/GitHub/Sacra/Saves',
-        title = 'Select a file') # Change Position to os.
+        file = filedialog.askopenfilename(initialdir = self.MeshDirectory,
+        title = 'Select a file')
         self.CurrentFile = file
         self.Update()
 
@@ -115,8 +117,8 @@ class Application(tk.Frame):
     def SaveNewFile(self):
         file = self.Entry.get()
         test = file + '.json'
-        filename = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
-        if test not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'): #Add so it wont take the name of .json because otherwise it wont work
+        filename = os.path.join(self.MeshDirectory, file)
+        if test not in os.listdir(self.MeshDirectory): #Add so it wont take the name of .json because otherwise it wont work
             with open(file = f'{filename}.json', mode = "w") as activefile: # Change to json file reading & writing
                 activefile.write(f'{file}' + ' = {}') # Might change this in the end, might be easier to just make .py and add verticies
             self.CurrentFile = filename + '.json'
@@ -139,8 +141,8 @@ class Application(tk.Frame):
 
     def SaveCurrentFile(self):
         file = self.SaveEntry.get()
-        if file not in os.listdir('/Users/andreasevensen/Documents/GitHub/Sacra/Saves'):
-            name = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Saves', file)
+        if file not in os.listdir(self.MeshDirectory):
+            name = os.path.join(self.MeshDirectory, file)
             with open(file = f'{name}.json', mode = "w") as activefile:
                 activefile.write('Test')
             self.SavefileInterface.destroy()
@@ -207,6 +209,7 @@ class Application(tk.Frame):
         self.ViewObjectInterface = tk.Toplevel()
         Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
         Button.pack()
+        #Will implement view object
 
 
 
