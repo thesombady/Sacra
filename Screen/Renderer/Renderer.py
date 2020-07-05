@@ -15,4 +15,3 @@ class Renderer(tk.Frame):
         """ DrawObject will draw the object of which one puts as argument. This has to be the full path! """
 
         pass
-print(os.getcwd())

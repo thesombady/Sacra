@@ -12,7 +12,9 @@ from tkinter import ttk
 #sys.path.append?
 #import MathEngine #Does not work, problem based on the same as Audio. If audio gets fixed, do the same for Mathengine and do 'as me'
 
+
 class Application(tk.Frame):
+    """ The Application to building Objects. """
 
     updaterate = 1000 # Will use in update
     CurrentMesh = {} #Don't override this, will use it to store the veritices of an object, such as a cube or a sphere, and later
@@ -37,6 +39,7 @@ class Application(tk.Frame):
 
 
     def initalize(self):
+        """Simple initalize function that creates the pulldown menus, and sets some definitions """
         self.master.geometry(f'{self.width}x{self.height}')
         IconPath = os.path.join(self.CurrentDirectory, 'Screen/sacra_kYY_icon.ico')
         self.master.iconbitmap(IconPath)
@@ -82,6 +85,7 @@ class Application(tk.Frame):
 
 
     def StartUpPage(self):
+        """A function that runs only ones, on start up. It displays a topframe of which has an image """
         StartUpPageInterface = tk.Toplevel(master = self.master)
         PhotoPath = os.path.join(self.CurrentDirectory, 'Screen/Sacra.png')
         img = ImageTk.PhotoImage(Image.open(PhotoPath))
@@ -92,19 +96,22 @@ class Application(tk.Frame):
         StartUpPageInterface.attributes('-topmost', True)
 
     def Update(self): #Implement static and contionus
+        """Function to update the File Configuration """
         self.ActiveFile.configure(text = self.CurrentFile)
         #if self.CurrentFile != None:
         #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
 
 
-
     def OpenFile(self):
+        """Opens the filedialog to choose a file. """
         file = filedialog.askopenfilename(initialdir = self.MeshDirectory,
         title = 'Select a file')
         self.CurrentFile = file
         self.Update()
 
     def NewFile(self):
+        """Creates a topframe of which one enters the name of a file.
+        Calls the SaveNewFile function to save it. """
         self.NewFileInterface = tk.Toplevel()
         Label = ttk.Label(master = self.NewFileInterface, text = "Enter name of file")
         Label.pack()
@@ -115,6 +122,7 @@ class Application(tk.Frame):
 
 
     def SaveNewFile(self):
+        """Function that checks wether the file already exits or not, and does appropiate depending on the expression. """
         file = self.Entry.get()
         test = file + '.json'
         filename = os.path.join(self.MeshDirectory, file)
@@ -130,6 +138,7 @@ class Application(tk.Frame):
 
 
     def SaveFile(self):
+        """ Saves the file """
         self.SavefileInterface = tk.Toplevel()
         Label = ttk.Label(master, self.SavefileInterface, text = "Name object")
         Label.pack()
@@ -140,6 +149,7 @@ class Application(tk.Frame):
 
 
     def SaveCurrentFile(self):
+        """Saves the current-file """
         file = self.SaveEntry.get()
         if file not in os.listdir(self.MeshDirectory):
             name = os.path.join(self.MeshDirectory, file)
@@ -152,6 +162,7 @@ class Application(tk.Frame):
         self.Update()
 
     def AddVertexMenu(self):
+        """Small function that is linked with the menu option """
         self.AddVertexInterface = tk.Toplevel()
         Label = ttk.Label(master = self.AddVertexInterface, text = "Number of Verticies")
         Label.pack()
@@ -161,6 +172,7 @@ class Application(tk.Frame):
         button.pack()
 
     def GetnumberOfVerticies(self):
+        """Linked to AddVertexMenu function, tells how many verticies one should add """
         NumberOfVerticies = self.SaveNumberOfVerticies.get()
         if NumberOfVerticies != 0: #This does not work, its either a blankspace line or space. Thus we'll use utf8
             self.AddVertex(NumberOfVerticies)
@@ -169,6 +181,7 @@ class Application(tk.Frame):
         self.AddVertexInterface.destroy()
 
     def AddVertex(self, number = 1):#MenuFunction
+        """Linked to GetnumberOfVerticies function, by default one vertex to add """
         print(number) #Used for testing purposes
         pass #Select how mamy verticies that should be added.
 
@@ -206,15 +219,13 @@ class Application(tk.Frame):
 
 
     def ViewObject(self): #MenuFunction
+        """Linked to the View Menu. """
         self.ViewObjectInterface = tk.Toplevel()
         Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
         Button.pack()
         #Will implement view object
 
 
-
-
-print(os.getcwd())
 
 root = tk.Tk()
 app = Application(root)
