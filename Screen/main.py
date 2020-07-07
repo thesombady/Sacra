@@ -92,7 +92,7 @@ class Application(tk.Frame):
         label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
         label.pack()
-        StartUpPageInterface.after(1000, StartUpPageInterface.destroy)
+        StartUpPageInterface.after(2000, StartUpPageInterface.destroy)
         StartUpPageInterface.attributes('-topmost', True)
 
     def Update(self): #Implement static and contionus
