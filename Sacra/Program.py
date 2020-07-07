@@ -51,6 +51,13 @@ class Application(tk.Frame):
         FileMenu = tk.Menu(menubar)
         EditMenu = tk.Menu(menubar)
         ViewMenu = tk.Menu(menubar)
+        BuildMenu = tk.Menu(menubar)
+        show_all = tk.BooleanVar()
+
+        BuildMenu.add_checkbutton(label = "Make Client-server", onvalue = 1, offvalue = 0, variable = show_all)
+        BuildMenu.add_command(label = "Build Game", command = self.BuildGame)
+        menubar.add_cascade(label = "Build", menu = BuildMenu)
+
         FileMenu.add_command(label = "Open", command = self.OpenFile)
         FileMenu.add_command(label = "Save", command = self.SaveFile)
         FileMenu.add_command(label = "Exit", command = self.master.destroy)
@@ -227,6 +234,11 @@ class Application(tk.Frame):
         Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
         Button.pack()
         #Will implement view object
+
+
+
+    def BuildGame(self):
+        pass
 
 root = tk.Tk()
 app = Application(root)
