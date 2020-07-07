@@ -7,6 +7,7 @@ import functools
 import time
 from concurrent.futures import ProcessPoolExecutor
 from tkinter import ttk
+import Renderer.MathEngine as me
 #from ..Audio import PlaySound
 #from ..Audio.PlayAudio import PlaySound
 #sys.path.append?
@@ -41,7 +42,7 @@ class Application(tk.Frame):
     def initalize(self):
         """Simple initalize function that creates the pulldown menus, and sets some definitions """
         self.master.geometry(f'{self.width}x{self.height}')
-        IconPath = os.path.join(self.CurrentDirectory, 'Screen/sacra_kYY_icon.ico')
+        IconPath = os.path.join(self.CurrentDirectory, 'Sacra/sacra_kYY_icon.ico')
         self.master.iconbitmap(IconPath)
 
         menubar = tk.Menu(self.master)
@@ -88,7 +89,7 @@ class Application(tk.Frame):
     def StartUpPage(self):
         """A function that runs only ones, on start up. It displays a topframe of which has an image """
         StartUpPageInterface = tk.Toplevel(master = self.master)
-        PhotoPath = os.path.join(self.CurrentDirectory, 'Screen/Sacra.png')
+        PhotoPath = os.path.join(self.CurrentDirectory, 'Sacra/Sacra.png')
         img = ImageTk.PhotoImage(Image.open(PhotoPath))
         label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
