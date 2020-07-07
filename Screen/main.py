@@ -58,6 +58,7 @@ class Application(tk.Frame):
         #Add space and breaker
 
         EditMenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
+        EditMenu.add_command(label = "Edit Map")
         menubar.add_cascade(label = 'Edit', menu = EditMenu) #Add edit commands
         #Add space and breaker
 
@@ -71,7 +72,7 @@ class Application(tk.Frame):
         self.Canvas.grid(row = 1, column = 5) # Fix the Layout.
         #Look up Columnspan
         size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
-        size.grid(row = 0, column = 1)
+        size.grid(row = 1, column = 1)
 
         self.StartUpPage() #Fix Fade on this function
         """
@@ -80,7 +81,7 @@ class Application(tk.Frame):
             executor.submit(Audio.Playsound().play('Exodus.mp3'))
         """
         self.ActiveFile = ttk.Label(master = self.master, text = self.CurrentFile)
-        self.ActiveFile.grid(row = 0, column = 2)
+        self.ActiveFile.grid(row = 0, column = 1)
 
 
 
