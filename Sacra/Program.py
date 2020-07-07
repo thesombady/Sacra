@@ -7,6 +7,7 @@ import functools
 import time
 from concurrent.futures import ProcessPoolExecutor
 from tkinter import ttk
+import Renderer
 import Renderer.MathEngine as me
 #from ..Audio import PlaySound
 #from ..Audio.PlayAudio import PlaySound
@@ -226,8 +227,6 @@ class Application(tk.Frame):
         Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
         Button.pack()
         #Will implement view object
-
-
 
 root = tk.Tk()
 app = Application(root)
