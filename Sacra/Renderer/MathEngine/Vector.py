@@ -84,6 +84,7 @@ class vec4d:
     def __truediv__(self, value):
         if value != 0:
             x, y, z, w = self.x / value, self.y / value, self.z / value, self.w / value
+            return vec4d(x, y, z, w)
         else:
             pass
     def __add__(self, other):
