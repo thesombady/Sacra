@@ -1,5 +1,5 @@
 #import BuildWorld
-import MathEngine
+from MathEngine import *
 
 class Build:
     pass
