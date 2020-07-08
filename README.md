@@ -2,10 +2,12 @@
 A Game Engine built untop of Exodus Game Engine. It's based on Tkinter and selfmade packages, which include vector definitions and meshes definitions. Sacra is built as a free-time project and thus it might be updated infrequently however it is open-source.
 
 
+
+
 # Usage
 As of yet there is no usage, later on you'll be able to use the UI which is under construction.
 ```python
-python main.py
+python Program.py
 ```
 
 # Contribute
