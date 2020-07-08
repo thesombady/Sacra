@@ -1,8 +1,8 @@
 class Stone:
-    pass
+    pass #Add Texture
 
 class Pinewood:
-    pass
+    pass #Add Texture
 
 class Marble:
-    pass
+    pass #Add Texture
