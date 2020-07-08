@@ -1,5 +1,7 @@
-
-
+from MathEngine import *
 
 class BuildWorld:
-    pass
+    """ A terrain Builder, refers to Perlin-noise. """
+
+    def __init__(self, Per):
+        pass
