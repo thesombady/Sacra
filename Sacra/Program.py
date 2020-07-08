@@ -238,7 +238,6 @@ class Application(tk.Frame):
         #Will implement view object
 
 
-
     def BuildGame(self):
         pass
 
