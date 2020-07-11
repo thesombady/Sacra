@@ -1,12 +1,11 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 import os
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
 import functools
 import time
 from concurrent.futures import ProcessPoolExecutor
-from tkinter import ttk
 import Renderer
 import SacraMathEngine as me
 #from ..Audio import PlaySound
