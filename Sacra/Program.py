@@ -98,7 +98,7 @@ class Application(tk.Frame):
     def StartUpPage(self):
         """A function that runs only ones, on start up. It displays a topframe of which has an image """
         StartUpPageInterface = tk.Toplevel(master = self.master)
-        PhotoPath = os.path.join(self.CurrentDirectory, 'Sacra/Sacra.png')
+        PhotoPath = os.path.join(self.CurrentDirectory, 'Sacra/SacraGame.png')
         img = ImageTk.PhotoImage(Image.open(PhotoPath))
         label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
