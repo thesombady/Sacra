@@ -11,6 +11,13 @@ import SacraMathEngine as me
 #import Audio #Fix audio import
 import Audio
 
+
+
+"""
+Look over the saving functions. Have 3 saving functions. Might be abit overkill.
+
+"""
+
 Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 
