@@ -20,9 +20,16 @@ class Renderer(tk.Frame):
     def DrawObject(self, Object):
         """ DrawObject will draw the object of which one puts as argument. This has to be the full path! """
         pass
+"""
+class Renderer2:
+    pass
 
 
+class LightSource(Renderer2):
+    def __init__(self):
+        super()__init__(self)
 
+"""
 #root = tk.Tk()
 #app = Renderer(root)
 #app.mainloop()

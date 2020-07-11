@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 import os
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
@@ -38,6 +38,7 @@ class Application(tk.Frame):
 
 
 
+
     def initalize(self):
         """Simple initalize function that creates the pulldown menus, and sets some definitions """
         self.master.geometry(f'{self.width}x{self.height}')
@@ -66,6 +67,9 @@ class Application(tk.Frame):
 
         EditMenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
         EditMenu.add_command(label = "Edit Map")
+
+        self.SecondObject = None
+        EditMenu.add_cascade(label = "Merge Objects", command = self.MergeObjects)
         menubar.add_cascade(label = 'Edit', menu = EditMenu) #Add edit commands
         #Add space and breaker
 
@@ -75,11 +79,10 @@ class Application(tk.Frame):
 
         self.master.config(menu=menubar)
 
-        self.Canvas = tk.Canvas(master = self.master, bg = 'gray', width = int(self.width / 2), height = self.height)
-        self.Canvas.grid(row = 1, column = 5) # Fix the Layout.
-        #Look up Columnspan
+
+        #Will probably remove this and make an entire function for this.
         size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
-        size.grid(row = 1, column = 1)
+        size.place(x = 10, y = 30)
 
         self.StartUpPage() #Fix Fade on this function
         """
@@ -88,7 +91,17 @@ class Application(tk.Frame):
             executor.submit(Audio.Playsound().play('Exodus.mp3'))
         """
         self.ActiveFile = ttk.Label(master = self.master, text = self.CurrentFile)
-        self.ActiveFile.grid(row = 0, column = 1)
+        self.ActiveFile.place(x = 10, y = 10)
+        self.Viewer()
+
+    def Viewer(self):
+        self.FilePrewievCanvas = tk.Canvas(master = self.master, bg = 'gray', height = 1000, width = 500)
+        #self.FilePrewievCanvas.grid(row = 0, column = 2)
+        self.FilePrewievCanvas.place(x = 500, y = -10)
+        """
+        Add Renderer function.
+        """
+
 
 
 
@@ -206,6 +219,14 @@ class Application(tk.Frame):
     def RemoveSelectedVertex(self):
         pass #Remove a Vertex.
 
+    def MergeObjects(self):
+        self.SecondObject = self.CurrentFile
+        self.OpenFile()
+        if self.SecondObject == self.CurrentFile:
+            messagebox.showerror("Cannot Merge same objects", "Choose another file.")
+        self.Update()
+
+
 
 
     def ScaleMesh(self, scalar):
@@ -240,7 +261,6 @@ class Application(tk.Frame):
         pass
 
 root = tk.Tk()
-root.geometry("1000x800")
 app = Application(root)
 app.mainloop()
 # file = app.currentfile #Can use this to place
