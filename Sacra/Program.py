@@ -1,15 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
-import os
+import os 
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
-import functools
+import functools #Might not use func tools
 import time
 from concurrent.futures import ProcessPoolExecutor
-import Renderer
+import Renderer #Renderer is not yet done
 import SacraMathEngine as me
-#from ..Audio import PlaySound
-#from ..Audio.PlayAudio import PlaySound
+#import Audio #Fix audio import
 
 
 
@@ -81,7 +80,7 @@ class Application(tk.Frame):
 
 
         #Will probably remove this and make an entire function for this.
-        size = tk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
+        size = ttk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
         size.place(x = 10, y = 30)
 
         self.StartUpPage() #Fix Fade on this function
@@ -112,7 +111,7 @@ class Application(tk.Frame):
         StartUpPageInterface = tk.Toplevel(master = self.master)
         PhotoPath = os.path.join(self.CurrentDirectory, 'Sacra/SacraGame.png')
         img = ImageTk.PhotoImage(Image.open(PhotoPath))
-        label = tk.Label(master = StartUpPageInterface, image = img)
+        label = ttk.Label(master = StartUpPageInterface, image = img)
         label.image = img
         label.pack()
         StartUpPageInterface.after(2000, StartUpPageInterface.destroy)
@@ -140,7 +139,7 @@ class Application(tk.Frame):
         Label.pack()
         self.Entry = ttk.Entry(master = self.NewFileInterface)
         self.Entry.pack()
-        Button = tk.Button(master = self.NewFileInterface, text = "Press to save", command = self.SaveNewFile)
+        Button = ttk.Button(master = self.NewFileInterface, text = "Press to save", command = self.SaveNewFile)
         Button.pack()
 
 
