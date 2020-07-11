@@ -240,6 +240,7 @@ class Application(tk.Frame):
         pass
 
 root = tk.Tk()
+root.geometry("1000x800")
 app = Application(root)
 app.mainloop()
 # file = app.currentfile #Can use this to place
