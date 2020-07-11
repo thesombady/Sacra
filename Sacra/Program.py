@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
-import os 
+import os
 import json #Might use for saving and storing verticies
 from PIL import Image, ImageTk
 import functools #Might not use func tools
@@ -9,6 +9,9 @@ from concurrent.futures import ProcessPoolExecutor
 import Renderer #Renderer is not yet done
 import SacraMathEngine as me
 #import Audio #Fix audio import
+import Audio
+
+Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 
 
