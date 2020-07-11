@@ -1,8 +1,5 @@
-#import BuildWorld
-#import MathEngine
-from BuildWorld import BuildWorld
-from MathEngine import *
 
+from BuildWorld import BuildWorld
 
 class Build:
     def __init__(self, WorldType):
