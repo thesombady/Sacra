@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import json
-#import Materials
+#Import Materials #Don't work when importing renderer!
 import SacraMathEngine as me
 
 
@@ -22,7 +22,7 @@ class Renderer(tk.Frame):
         pass
 
 
-#print(me.vec3d(1,1,1))
-root = tk.Tk()
-app = Renderer(root)
-app.mainloop()
+
+#root = tk.Tk()
+#app = Renderer(root)
+#app.mainloop()
