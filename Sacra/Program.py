@@ -8,11 +8,11 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 from tkinter import ttk
 import Renderer
-import Renderer.MathEngine as me
+import SacraMathEngine as me
 #from ..Audio import PlaySound
 #from ..Audio.PlayAudio import PlaySound
 #sys.path.append?
-#import MathEngine #Does not work, problem based on the same as Audio. If audio gets fixed, do the same for Mathengine and do 'as me'
+
 
 
 class Application(tk.Frame):
