@@ -113,9 +113,6 @@ class Application(tk.Frame):
 
 
 
-
-
-
     def StartUpPage(self):
         """A function that runs only ones, on start up. It displays a topframe of which has an image """
         StartUpPageInterface = tk.Toplevel(master = self.master)
