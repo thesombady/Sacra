@@ -22,6 +22,7 @@ class Renderer(tk.Canvas):
         """ DrawObject will draw the object of which one puts as argument. This requires the name of of file, not the file-extension itself. """
         ObjectToDraw = os.path.join(self.Masterpath, Object + '.json')
         print(type(ObjectToDraw))
+        Mesh = me.MeshObject
 
 
 
