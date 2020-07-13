@@ -20,9 +20,12 @@ class Renderer(tk.Canvas):
 
     def DrawObject(self, Object):
         """ DrawObject will draw the object of which one puts as argument. This requires the name of of file, not the file-extension itself. """
-        ObjectToDraw = os.path.join(self.Masterpath, Object + '.json')
-        print(type(ObjectToDraw))
-        Mesh = me.MeshObject
+        #ObjectToDraw = os.path.join(self.Masterpath, Object + '.json')
+        if not isinstance(Object, me.MeshObject):
+            raise KeyError("Not correct format")
+        print(type(Object))
+
+
 
 
 
@@ -57,10 +60,12 @@ Cube = """{
 
 
 test = json.loads(Cube)
-test = json.dumps(test, indent = 4)
-print(test)
+#test = json.dumps(test, indent = 4)
+print(type(test))
+mesh = me.MeshObject(test, 'Cube')
 
 
-#root = tk.Tk()
-#app = Renderer(root)
-#app.mainloop()
+root = tk.Tk()
+app = Renderer(root)
+app.DrawObject(mesh)
+app.mainloop()
