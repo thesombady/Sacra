@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter import filedialog
 import json
 #Import Materials #Don't work when importing renderer!
-import SacraMathEngine as me
+from SacraMathEngine import MeshObject
 from PIL import Image
 
 
@@ -19,12 +19,10 @@ class Renderer(tk.Canvas):
         self.Masterpath = os.path.join(os.getcwd(), '/Saves')
 
 
-    def DrawObject(self, Object, Name):
-        """ DrawObject will draw the object of which one puts as argument. This requires the name of of file, not the file-extension itself. """
-        #ObjectToDraw = os.path.join(self.Masterpath, Object + '.json')
-        if not isinstance(Object, me.MeshObject):
-            raise KeyError("Not correct format")
-        RealObject = Object
+    def DrawMesh(self, Mesh):
+        """Draw the given mesh, also projecting it on a 2d plane."""
+        if isinstance(Mesh, MeshObject):
+            pass #Decide whether to make a picture and rendering that picture or draw on canvas.
 
 
 
@@ -63,13 +61,9 @@ Cube = """{
 
 
 test = json.loads(Cube)
-#test = json.dumps(test, indent = 4)
-print(type(test))
-mesh = me.MeshObject(test, 'Cube')
-print(type(mesh))
+
 
 
 root = tk.Tk()
 app = Renderer(root)
-app.DrawObject(mesh, 'Cubes')
 app.mainloop()
