@@ -36,7 +36,7 @@ class Application(tk.Frame):
         self.master = master
         self.width = width
         self.height = height
-        self.CurrentDirectory = os.getcwd() # Will use this later on to obtain versitile machine usage.
+        self.CurrentDirectory = os.getcwd() # Will use this later on to obtain versatile machine usage.
         self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.CurrentVertex = None
         self.master.title("Sacra Game Engine")
@@ -124,11 +124,11 @@ class Application(tk.Frame):
         StartUpPageInterface.after(2000, StartUpPageInterface.destroy)
         StartUpPageInterface.attributes('-topmost', True)
 
-    def Update(self): #Implement static and contionus
+    def Update(self): #Implement static and continuous
         """Function to update the File Configuration """
         self.ActiveFile.configure(text = self.CurrentFile)
         #if self.CurrentFile != None:
-        #self.master.after(self.updaterate, self.Update)#Works so it continuesly updates
+        #self.master.after(self.updaterate, self.Update)#Works so it continuously updates
 
 
     def OpenFile(self):
