@@ -1,4 +1,7 @@
-from SacraMathEngine import vec3d
+try:
+    from SacraMathEngine import *
+except:
+    raise ImportError("Cannot import SacraMathEngine.")
 
 class Lightsource:
 

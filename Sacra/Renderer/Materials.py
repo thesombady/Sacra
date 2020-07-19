@@ -1,3 +1,8 @@
+try:
+    from SacraMathEngine import *
+except:
+    raise ImportError("Cannot import SacraMathEngine")
+
 class Stone:
     pass #Add Texture
 
