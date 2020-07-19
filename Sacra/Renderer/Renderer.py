@@ -5,27 +5,22 @@ from tkinter import ttk
 from tkinter import filedialog
 import json
 #Import Materials #Don't work when importing renderer!
-from SacraMathEngine import MeshObject
+from SacraMathEngine import *
 from PIL import Image
 
 
-class Renderer(tk.Canvas):
+class RenderError(Exception):
+    pass
+
+
+
+class Renderer:
     """Renderer Class; Lies inside a Frame in tkinter. The renderer will draw the shapes corresponding to each mesh. """
-    def __init__(self, master = None):
-        super().__init__(master)
-        self.master = master
-        self.master
-        self.master.geometry(f'400x600')
-        self.Masterpath = os.path.join(os.getcwd(), '/Saves')
-
-
-    def DrawMesh(self, Mesh):
-        """Draw the given mesh, also projecting it on a 2d plane."""
-        if isinstance(Mesh, MeshObject):
-            pass #Decide whether to make a picture and rendering that picture or draw on canvas.
-
-
-
+    def __init__(self, Object):
+        if not isinstance(Object, MeshObject):
+            raise RenderError("Cannot load MeshObject")
+        else:
+            self.Object = Object
 
 
 
@@ -58,12 +53,3 @@ Cube = """{
     "12": "Triangle(vec3d(1, 0, 1), vec3d(0, 0, 0), vec3d(1, 0, 0))"}]
 }
 """
-
-
-test = json.loads(Cube)
-
-
-
-root = tk.Tk()
-app = Renderer(root)
-app.mainloop()
