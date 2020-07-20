@@ -1,0 +1,1 @@
+Folder that contains the current loaded frame, Moreover if a background image is used, it should lie in this folder.
