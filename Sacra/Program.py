@@ -21,6 +21,9 @@ Look over the saving functions. Have 3 saving functions. Might be abit overkill.
 Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 
+class LoadError(Exception):
+    pass
+
 
 class Application(tk.Frame):
     """ The Application to building Objects. """
@@ -261,6 +264,17 @@ class Application(tk.Frame):
         Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
         Button.pack()
         #Will implement view object
+
+    def PreviedWindow(self, file):
+        if isinstance(file, None):
+            pass
+        else:
+            try:
+                filename = self.CurrentFile.split('/')
+                Data = MeshObject()
+                Data(filename[-1])
+            except:
+                raise LoadError("[System]: Can't load current file.")
 
 
     def BuildGame(self):
