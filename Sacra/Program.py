@@ -280,6 +280,17 @@ class Application(tk.Frame):
     def BuildGame(self):
         pass
 
+class PreviewImage(tk.Canvas):
+    """Small Class that will control the previewImage"""
+
+
+    def __init__(self, master = None, **args):
+        super().__init__(master)
+        InitialValues = "{Height = 1000, Width = 1000, Position = (500,500)}"
+        if not kwargs in InitialValues:
+            raise TypeError("[System]: One or more of the inputs are not valid.")
+
+
 root = tk.Tk()
 app = Application(root)
 app.mainloop()
