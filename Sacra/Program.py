@@ -8,7 +8,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 import Renderer #Renderer is not yet done
 import SacraMathEngine as me
-#import SacraPhysicsEngine as pe
+import SacraPhysicsEngine as pe
 #import Audio #Fix audio import
 import Audio
 
