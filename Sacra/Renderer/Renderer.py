@@ -14,13 +14,13 @@ class RenderError(Exception):
 class Renderer:
     """Renderer Class; Lies inside a Frame in tkinter. The renderer will draw the shapes corresponding to each mesh. """
 
-    def __init__(self, Object, Background = None, size = (100, 100)):
+    def __init__(self, Object, Background = None, size = (1000, 1000)):
         if not isinstance(Object, MeshObject):
             raise RenderError("Cannot load MeshObject")
         else:
             self.size = size
             self.Object = Object
-            self.ProjectionMatrix = ProjectionMatrix(size = (1000,1000)) #This is given as a default setting, can add settings later
+            self.ProjectionMatrix = ProjectionMatrix(size = (1000,500)) #This is given as a default setting, can add settings later
             if Background == None:
                 self.Background = Background
                 #Add lightsource afterwards. Also implement which material it should have. Take either the dot-product or the crossproduct

@@ -6,11 +6,12 @@ from PIL import Image, ImageTk
 import functools #Might not use func tools
 import time
 from concurrent.futures import ProcessPoolExecutor
-import Renderer #Renderer is not yet done
+from Renderer import * #Renderer is not yet done
 import SacraMathEngine as me
 import SacraPhysicsEngine as pe
 #import Audio #Fix audio import
 import Audio
+#Add curser controle, and be ability of tabbing through triangles/verticies
 
 
 
@@ -49,9 +50,6 @@ class Application(tk.Frame):
         self.initalize()
         self.Update()
 
-
-
-
     def initalize(self):
         """Simple initalize function that creates the pulldown menus, and sets some definitions """
         self.master.geometry(f'{self.width}x{self.height}')
@@ -80,6 +78,7 @@ class Application(tk.Frame):
 
         EditMenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
         EditMenu.add_command(label = "Edit Map")
+        EditMenu.add_command(label = "Move Object", command = self.MoveObject)
 
         self.SecondObject = None
         EditMenu.add_cascade(label = "Merge Objects", command = self.MergeObjects)
@@ -94,8 +93,8 @@ class Application(tk.Frame):
 
 
         #Will probably remove this and make an entire function for this.
-        size = ttk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
-        size.place(x = 10, y = 30)
+        self.ScaleMeshValue = ttk.Scale(master = self.master, from_ = 1, to = 100, orient = "h")
+        self.ScaleMeshValue.place(x = 10, y = 30)
 
         self.StartUpPage() #Fix Fade on this function
         """
@@ -105,9 +104,9 @@ class Application(tk.Frame):
         """
         self.ActiveFile = ttk.Label(master = self.master, text = self.CurrentFile)
         self.ActiveFile.place(x = 10, y = 10)
-        self.Viewer()
+        self.ViewerCanvas()
 
-    def Viewer(self):
+    def ViewerCanvas(self):
         self.FilePrewievCanvas = tk.Canvas(master = self.master, bg = 'gray', height = 1000, width = 500)
         #self.FilePrewievCanvas.grid(row = 0, column = 2)
         self.FilePrewievCanvas.place(x = 500, y = -10)
@@ -115,6 +114,13 @@ class Application(tk.Frame):
         Add Renderer function.
         """
 
+    def Viewer(self):
+        Directory = os.getcwd()
+        FrameFile = os.path.join(Directory, 'Sacra/Renderer/CurrentFrame/Frame.png')
+        img = ImageTk.PhotoImage(Image.open(FrameFile))
+        label = tk.Label(master = self.master, image = img)
+        label.image = img
+        label.place(x = 500, y = -10)
 
 
     def StartUpPage(self):
@@ -122,7 +128,7 @@ class Application(tk.Frame):
         StartUpPageInterface = tk.Toplevel(master = self.master)
         PhotoPath = os.path.join(self.CurrentDirectory, 'Sacra/SacraGame.png')
         img = ImageTk.PhotoImage(Image.open(PhotoPath))
-        label = ttk.Label(master = StartUpPageInterface, image = img)
+        label = tk.Label(master = StartUpPageInterface, image = img)
         label.image = img
         label.pack()
         StartUpPageInterface.after(2000, StartUpPageInterface.destroy)
@@ -131,8 +137,23 @@ class Application(tk.Frame):
     def Update(self): #Implement static and continuous
         """Function to update the File Configuration """
         self.ActiveFile.configure(text = self.CurrentFile)
-        #if self.CurrentFile != None:
-        #self.master.after(self.updaterate, self.Update)#Works so it continuously updates
+        CurrentFile = self.CurrentFile
+        self.Mesh = None
+
+        if CurrentFile != None:
+            try:
+                CurrentMeshFile = CurrentFile.split('/')
+                Filename = CurrentMeshFile[-1]
+                Filename = Filename.split('.')
+                Filename = Filename[0] #To retrieve the correct filename without any exentisons.
+                self.Mesh = me.MeshObject()
+                self.Mesh.setter(Filename)
+                RenderObject = Renderer(self.Mesh)
+                RenderObject.DrawObject()
+            except Exception as E:
+                raise E
+        self.Viewer()
+        self.master.after(500, self.Update)#Works fine
 
 
     def OpenFile(self):
@@ -141,6 +162,7 @@ class Application(tk.Frame):
         title = 'Select a file')
         self.CurrentFile = file
         self.Update()
+        #print(type(self.CurrentFile))
 
     def NewFile(self):
         """Creates a topframe of which one enters the name of a file.
@@ -173,7 +195,7 @@ class Application(tk.Frame):
     def SaveFile(self):
         """ Saves the file """
         self.SavefileInterface = tk.Toplevel()
-        Label = ttk.Label(master, self.SavefileInterface, text = "Name object")
+        Label = ttk.Label(master = self.SavefileInterface, text = "Name object")
         Label.pack()
         self.SaveEntry = ttk.Entry(master = self.SaveFileInterface)
         self.SaveEntry.pack()
@@ -236,11 +258,44 @@ class Application(tk.Frame):
             messagebox.showerror("Cannot Merge same objects", "Choose another file.")
         self.Update()
 
+    def MoveObject(self):
+        try:
+            def MoveUp():
+                self.Mesh = self.Mesh + me.vec3d(0,1,0)
+                self.Update()
+            def MoveDown():
+                self.Mesh = self.Mesh + me.vec3d(0,-1,0)
+                self.Update()
+            def MoveRight():
+                self.Mesh = self.Mesh + me.vec3d(1,0,0)
+                self.Update()
+            def MoveLeft():
+                self.Mesh = self.Mesh + me.vec3d(-1,0,0)
+                self.Update()
+        except Exception as E:
+            raise E
+        MoveButton = tk.Toplevel()
+        MoveRightV = tk.Button(master = MoveButton, text = "Move Right", command = MoveRight)
+        MoveRightV.pack()
+        MoveLeftV = tk.Button(master = MoveButton, text = "Move Left", command = MoveLeft)
+        MoveLeftV.pack()
+        MoveUpV = tk.Button(master = MoveButton, text = "Move up", command = MoveUp)
+        MoveUpV.pack()
+        MoveDownV = tk.Button(master = MoveButton, text = "Move down", command = MoveDown)
+        MoveDownV.pack()
 
 
 
-    def ScaleMesh(self, scalar):
-        pass #Will take the value of Scale widget.
+
+
+    def ScaleMesh(self):
+        if self.Mesh != None:
+            ScalarValue = self.ScaleMeshValue.get()
+            try:
+                self.Mesh = self.Mesh * ScalarValue
+            except Exception as E:
+                raise E
+        #pass #Will take the value of Scale widget.
 
     def Sound(self, NameOfFile):
         pass #Using the import we can play any sound
@@ -281,15 +336,6 @@ class Application(tk.Frame):
     def BuildGame(self):
         pass
 
-class PreviewImage(tk.Canvas):
-    """Small Class that will control the previewImage"""
-
-
-    def __init__(self, master = None, **args):
-        super().__init__(master)
-        InitialValues = "{Height = 1000, Width = 1000, Position = (500,500)}"
-        if not kwargs in InitialValues:
-            raise TypeError("[System]: One or more of the inputs are not valid.")
 
 
 root = tk.Tk()
