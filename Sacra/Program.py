@@ -25,6 +25,33 @@ Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 class LoadError(Exception):
     pass
+"""
+-----------------------------------------------------------
+"""
+"""
+Decorators for Sacra Game Engine
+"""
+
+
+def UpdateDecorator(Mesh = None, Name = None):
+    if func != None:
+        def wrapper():
+            try:
+                Mesh.SaveToJson(Name)
+            except Exception as E:
+                raise E
+        return wrapper
+    else:
+        pass
+
+
+
+
+""""
+-----------------------------------------------------------
+"""
+
+
 
 
 class Application(tk.Frame):
@@ -44,11 +71,13 @@ class Application(tk.Frame):
         self.CurrentDirectory = os.getcwd() # Will use this later on to obtain versatile machine usage.
         self.CurrentFile = None #Will use this later on. Using this variable we can set which "Saves" file were using and thus add verticies if needed
         self.CurrentVertex = None
+        self.CurrentMesh = None
         self.master.title("Sacra Game Engine")
         self.MeshDirectory = os.path.join(self.CurrentDirectory, 'Saves')
         #self.bind_all('<Button-1>', self.CallBack)
         self.initalize()
         self.Update()
+
 
     def initalize(self):
         """Simple initalize function that creates the pulldown menus, and sets some definitions """
@@ -76,9 +105,9 @@ class Application(tk.Frame):
         menubar.add_cascade(label = "File", menu = FileMenu)
         #Add space and breaker
 
-        EditMenu.add_command(label = "Add vertex", command = self.AddVertexMenu)
+        EditMenu.add_command(label = "Add vertex")
         EditMenu.add_command(label = "Edit Map")
-        EditMenu.add_command(label = "Move Object", command = self.MoveObject)
+        EditMenu.add_command(label = "Move Object")
 
         self.SecondObject = None
         EditMenu.add_cascade(label = "Merge Objects", command = self.MergeObjects)
@@ -138,31 +167,21 @@ class Application(tk.Frame):
         """Function to update the File Configuration """
         self.ActiveFile.configure(text = self.CurrentFile)
         CurrentFile = self.CurrentFile
-        self.Mesh = None
 
-        if CurrentFile != None:
-            try:
-                CurrentMeshFile = CurrentFile.split('/')
-                Filename = CurrentMeshFile[-1]
-                Filename = Filename.split('.')
-                Filename = Filename[0] #To retrieve the correct filename without any exentisons.
-                self.Mesh = me.MeshObject()
-                self.Mesh.setter(Filename)
-                RenderObject = Renderer(self.Mesh)
-                RenderObject.DrawObject()
-            except Exception as E:
-                raise E
-        self.Viewer()
-        self.master.after(500, self.Update)#Works fine
 
 
     def OpenFile(self):
         """Opens the filedialog to choose a file. """
         file = filedialog.askopenfilename(initialdir = self.MeshDirectory,
         title = 'Select a file')
-        self.CurrentFile = file
+        Filename = file.split('/')
+        Filename = Filename[-1]
+        Filename = Filename.split('.')
+        Filename = Filename[0] #To retrieve the correct filename without any exentisons.
+        self.CurrentFile = Filename
+        ActiveObject = me.MeshObject()
+        self.CurrentMesh = ActiveObject.setter(self.CurrentFile)
         self.Update()
-        #print(type(self.CurrentFile))
 
     def NewFile(self):
         """Creates a topframe of which one enters the name of a file.
@@ -216,32 +235,6 @@ class Application(tk.Frame):
             label.pack()
         self.Update()
 
-    def AddVertexMenu(self):
-        """Small function that is linked with the menu option """
-        self.AddVertexInterface = tk.Toplevel()
-        Label = ttk.Label(master = self.AddVertexInterface, text = "Number of Verticies")
-        Label.pack()
-        self.SaveNumberOfVerticies = ttk.Entry(master = self.AddVertexInterface)
-        self.SaveNumberOfVerticies.pack()
-        button = ttk.Button(master = self.AddVertexInterface, text = "Submit", command = self.GetnumberOfVerticies)
-        button.pack()
-
-    def GetnumberOfVerticies(self):
-        """Linked to AddVertexMenu function, tells how many verticies one should add """
-        NumberOfVerticies = self.SaveNumberOfVerticies.get()
-        if NumberOfVerticies != 0: #This does not work, its either a blankspace line or space. Thus we'll use utf8
-            self.AddVertex(NumberOfVerticies)
-        else:
-            self.AddVertex(number = 1)
-        self.AddVertexInterface.destroy()
-
-    def AddVertex(self, number = 1):#MenuFunction
-        """Linked to GetnumberOfVerticies function, by default one vertex to add """
-        print(number) #Used for testing purposes
-        pass #Select how mamy verticies that should be added.
-
-    def MoveVertex(self, vector):
-        pass #Using selected vertex function we'll be able to move that vertex to the new Position
 
 
 
@@ -258,6 +251,7 @@ class Application(tk.Frame):
             messagebox.showerror("Cannot Merge same objects", "Choose another file.")
         self.Update()
 
+    """
     def MoveObject(self):
         try:
             def MoveUp():
@@ -283,7 +277,11 @@ class Application(tk.Frame):
         MoveUpV.pack()
         MoveDownV = tk.Button(master = MoveButton, text = "Move down", command = MoveDown)
         MoveDownV.pack()
-
+        try:
+            self.Mesh.SaveToJson()
+        except Exception as E:
+            raise E
+    """
 
 
 
