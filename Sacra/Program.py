@@ -153,11 +153,19 @@ class Application(tk.Frame):
         except:
             print("Saving issue")
         self.RenderFunction()
+        self.ShowInfo()
         self.Viewer()
 
 
     def ShowInfo(self):
-        pass #Add a list of triangles
+        ListBoxOfMesh = tk.Listbox(master = self.master)
+        try:
+            for i in range(len(self.CurrentMesh)):
+                for j in range(len(self.CurrentMesh[i])):
+                    ListBoxOfMesh.insert(j, self.CurrentMesh[i][j])
+        except:
+            pass
+        ListBoxOfMesh.place(x = 20,y = 0)
 
     def OpenFile(self):
         """Opens the filedialog to choose a file. """
