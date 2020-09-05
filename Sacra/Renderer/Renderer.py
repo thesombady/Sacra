@@ -108,9 +108,9 @@ class Renderer:
 
         return type(Name)
 
-
+"""
 Cube = MeshObject()
 Cube.setter('test')
 Cube = Cube + vec3d(1,1,1)
-
-Renderer(Cube).DrawObject(Detail = 1000)
+"""
+#Renderer(Cube).DrawObject(Detail = 1000)

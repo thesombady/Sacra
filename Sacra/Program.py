@@ -11,6 +11,7 @@ import SacraMathEngine as me
 import SacraPhysicsEngine as pe
 #import Audio #Fix audio import
 import Audio
+import functools
 #Add curser controle, and be ability of tabbing through triangles/verticies
 
 
@@ -25,31 +26,7 @@ Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 class LoadError(Exception):
     pass
-"""
------------------------------------------------------------
-"""
-"""
-Decorators for Sacra Game Engine
-"""
 
-
-def UpdateDecorator(Mesh = None, Name = None):
-    if func != None:
-        def wrapper():
-            try:
-                Mesh.SaveToJson(Name)
-            except Exception as E:
-                raise E
-        return wrapper
-    else:
-        pass
-
-
-
-
-""""
------------------------------------------------------------
-"""
 
 
 
@@ -76,7 +53,6 @@ class Application(tk.Frame):
         self.MeshDirectory = os.path.join(self.CurrentDirectory, 'Saves')
         #self.bind_all('<Button-1>', self.CallBack)
         self.initalize()
-        self.Update()
 
 
     def initalize(self):
@@ -107,7 +83,7 @@ class Application(tk.Frame):
 
         EditMenu.add_command(label = "Add vertex")
         EditMenu.add_command(label = "Edit Map")
-        EditMenu.add_command(label = "Move Object")
+        EditMenu.add_command(label = "Move Object", command = self.MoveObject)
 
         self.SecondObject = None
         EditMenu.add_cascade(label = "Merge Objects", command = self.MergeObjects)
@@ -139,9 +115,6 @@ class Application(tk.Frame):
         self.FilePrewievCanvas = tk.Canvas(master = self.master, bg = 'gray', height = 1000, width = 500)
         #self.FilePrewievCanvas.grid(row = 0, column = 2)
         self.FilePrewievCanvas.place(x = 500, y = -10)
-        """
-        Add Renderer function.
-        """
 
     def Viewer(self):
         Directory = os.getcwd()
@@ -150,6 +123,14 @@ class Application(tk.Frame):
         label = tk.Label(master = self.master, image = img)
         label.image = img
         label.place(x = 500, y = -10)
+
+    def RenderFunction(self):
+        try:
+            Mesh = self.ActiveObject
+            RenderObject = Renderer(Mesh)
+            RenderObject.DrawObject()
+        except:
+            print("Somethings wrong")
 
 
     def StartUpPage(self):
@@ -167,8 +148,16 @@ class Application(tk.Frame):
         """Function to update the File Configuration """
         self.ActiveFile.configure(text = self.CurrentFile)
         CurrentFile = self.CurrentFile
+        try:
+            self.ActiveObject.SaveToJson(self.CurrentFile)
+        except:
+            print("Saving issue")
+        self.RenderFunction()
+        self.Viewer()
 
 
+    def ShowInfo(self):
+        pass #Add a list of triangles
 
     def OpenFile(self):
         """Opens the filedialog to choose a file. """
@@ -179,8 +168,8 @@ class Application(tk.Frame):
         Filename = Filename.split('.')
         Filename = Filename[0] #To retrieve the correct filename without any exentisons.
         self.CurrentFile = Filename
-        ActiveObject = me.MeshObject()
-        self.CurrentMesh = ActiveObject.setter(self.CurrentFile)
+        self.ActiveObject = me.MeshObject()
+        self.CurrentMesh = self.ActiveObject.setter(self.CurrentFile)
         self.Update()
 
     def NewFile(self):
@@ -244,6 +233,8 @@ class Application(tk.Frame):
     def RemoveSelectedVertex(self):
         pass #Remove a Vertex.
 
+
+
     def MergeObjects(self):
         self.SecondObject = self.CurrentFile
         self.OpenFile()
@@ -251,23 +242,31 @@ class Application(tk.Frame):
             messagebox.showerror("Cannot Merge same objects", "Choose another file.")
         self.Update()
 
-    """
     def MoveObject(self):
-        try:
-            def MoveUp():
-                self.Mesh = self.Mesh + me.vec3d(0,1,0)
+        def MoveRight():
+            try:
+                self.ActiveObject = self.ActiveObject + me.vec3d(1,0,0)
                 self.Update()
-            def MoveDown():
-                self.Mesh = self.Mesh + me.vec3d(0,-1,0)
+            except:
+                pass
+        def MoveLeft():
+            try:
+                self.ActiveObject = self.ActiveObject + me.vec3d(-1,0,0)
                 self.Update()
-            def MoveRight():
-                self.Mesh = self.Mesh + me.vec3d(1,0,0)
+            except:
+                pass
+        def MoveDown():
+            try:
+                self.ActiveObject = self.ActiveObject + me.vec3d(0,-1,0)
                 self.Update()
-            def MoveLeft():
-                self.Mesh = self.Mesh + me.vec3d(-1,0,0)
+            except:
+                pass
+        def MoveUp():
+            try:
+                self.ActiveObject = self.ActiveObject + me.vec3d(0,1,0)
                 self.Update()
-        except Exception as E:
-            raise E
+            except:
+                pass
         MoveButton = tk.Toplevel()
         MoveRightV = tk.Button(master = MoveButton, text = "Move Right", command = MoveRight)
         MoveRightV.pack()
@@ -277,11 +276,7 @@ class Application(tk.Frame):
         MoveUpV.pack()
         MoveDownV = tk.Button(master = MoveButton, text = "Move down", command = MoveDown)
         MoveDownV.pack()
-        try:
-            self.Mesh.SaveToJson()
-        except Exception as E:
-            raise E
-    """
+
 
 
 
