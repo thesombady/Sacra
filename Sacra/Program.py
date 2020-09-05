@@ -162,10 +162,10 @@ class Application(tk.Frame):
         try:
             for i in range(len(self.CurrentMesh)):
                 for j in range(len(self.CurrentMesh[i])):
-                    ListBoxOfMesh.insert(j, self.CurrentMesh[i][j])
+                    ListBoxOfMesh.insert(j, self.ActiveObject[i][j])
         except:
             pass
-        ListBoxOfMesh.place(x = 20,y = 0)
+        ListBoxOfMesh.place(x = 20,y = 100)
 
     def OpenFile(self):
         """Opens the filedialog to choose a file. """
@@ -265,13 +265,13 @@ class Application(tk.Frame):
                 pass
         def MoveDown():
             try:
-                self.ActiveObject = self.ActiveObject + me.vec3d(0,-1,0)
+                self.ActiveObject = self.ActiveObject + me.vec3d(0,1,0)
                 self.Update()
             except:
                 pass
         def MoveUp():
             try:
-                self.ActiveObject = self.ActiveObject + me.vec3d(0,1,0)
+                self.ActiveObject = self.ActiveObject + me.vec3d(0,-1,0)
                 self.Update()
             except:
                 pass
