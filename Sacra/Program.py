@@ -152,6 +152,7 @@ class Application(tk.Frame):
             self.ActiveObject.SaveToJson(self.CurrentFile)
         except:
             print("Saving issue")
+        self.ScaleMesh()
         self.RenderFunction()
         self.ShowInfo()
         self.Viewer()
@@ -165,7 +166,13 @@ class Application(tk.Frame):
                     ListBoxOfMesh.insert(j, self.ActiveObject[i][j])
         except:
             pass
+        def Remove():
+            Value
+            ListBoxOfMesh.delete(ANCHOR)
         ListBoxOfMesh.place(x = 20,y = 100)
+        RemoveButton = tk.Button(master = self.master, text = "Remove", command = Remove)
+        RemoveButton.place(x = 20, y = 300)
+
 
     def OpenFile(self):
         """Opens the filedialog to choose a file. """
@@ -290,14 +297,15 @@ class Application(tk.Frame):
 
 
     def ScaleMesh(self):
-        if self.Mesh != None:
+        """
+        if self.ActiveObject != None:
             ScalarValue = self.ScaleMeshValue.get()
             try:
-                self.Mesh = self.Mesh * ScalarValue
+                self.ActiveObject = self.ActiveObject * ScalarValue
             except Exception as E:
                 raise E
-        #pass #Will take the value of Scale widget.
-
+        """
+        pass
     def Sound(self, NameOfFile):
         pass #Using the import we can play any sound
 
