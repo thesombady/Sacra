@@ -75,29 +75,6 @@ class Renderer:
             with Image.new("RGB", self.size) as file:
                 image = ImageDraw.Draw(file)
                 for i in range(len(mesh)):
-                    """
-                    vec1 = mesh[i][0]
-                    vec2 = mesh[i][1]
-                    vec3 = mesh[i][2]
-                    projvec1 = self.ProjectionMatrix.Multiplcation(vec1)
-                    projvec2 = self.ProjectionMatrix.Multiplcation(vec2)
-                    projvec3 = self.ProjectionMatrix.Multiplcation(vec3)
-                    """
-                    #This solutions does not work as of yet
-                    """
-                    ProjectedTriangle = []
-                    for j in range(0,len(mesh[i]) - 1):
-                        vec = self.ProjectionMatrix.Multiplcation(mesh[i][j])
-                        vec = (vec4d(0,0,0,0) - vec) * 10
-                        file.putpixel((int(vec[0]), int(vec[1])), (255,255,255))
-                        #print(projvec * 10)
-                    """
-                    """"
-                    TransformedVectors = []
-                    for vec in mesh[i]:
-                        TransformedVectors.append(self.ProjectionMatrix.Multiplcation(vec))
-                    DrawTriangle(TransformedVectors, image = image)
-                    """
                     HelperDraw(mesh[i], image)
 
 
