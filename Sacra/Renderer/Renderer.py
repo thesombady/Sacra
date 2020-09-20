@@ -20,7 +20,7 @@ class Renderer:
         else:
             self.size = size
             self.Object = Object
-            self.ProjectionMatrix = ProjectionMatrix(size = (1000,500)) #This is given as a default setting, can add settings later
+            self.ProjectionMatrix = ProjectionMatrix(size = (1000,1000)) #This is given as a default setting, can add settings later
             if Background == None:
                 self.Background = Background
                 #Add lightsource afterwards. Also implement which material it should have. Take either the dot-product or the crossproduct
@@ -59,9 +59,10 @@ class Renderer:
                 raise RenderError("[System]: Cannot draw triangles.")
             else:
                 try:
-                    #vec1 = self.ProjectionMatrix.Multiplcation(triangle[0])
-                    #vec2 = self.ProjectionMatrix.Multiplcation(triangle[1])
-                    #vec3 = self.ProjectionMatrix.Multiplcation(triangle[2])
+                    #vec1 = self.ProjectionMatrix.Multiplcation(triangle[0]) * 10
+                    #vec2 = self.ProjectionMatrix.Multiplcation(triangle[1]) * 10
+                    #vec3 = self.ProjectionMatrix.Multiplcation(triangle[2]) * 10
+                    #print(type(vec1), type(vec2), type(vec3))
                     vec1 = triangle[0] * 10
                     vec2 = triangle[1] * 10
                     vec3 = triangle[2] * 10
