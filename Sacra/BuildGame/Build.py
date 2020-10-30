@@ -3,7 +3,7 @@ import parser #Will use this to build the game.
 
 
 
-from BuildWorld import BuildWorld
+#from BuildWorld import BuildWorld
 
 class Build:
     def __init__(self, WorldType, Multiplayer):
