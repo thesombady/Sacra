@@ -5,8 +5,9 @@ import json
 from SacraMathEngine import *
 from PIL import Image, ImageDraw
 import time
-#from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 #Will use above import too speed up the rendering time
+#Will use exec as input in editor
 
 class RenderError(Exception):
     pass
@@ -92,3 +93,42 @@ Cube.setter('test')
 Cube = Cube + vec3d(1,1,1)
 """
 #Renderer(Cube).DrawObject(Detail = 1000)
+class Renderer2():
+    def __init__(self, Object, Background = None, size = (1000, 1000)):
+        if not isinstance(Object, MeshObject3d):
+            raise TypeError('[System]: Mesh object is of wrong format')
+        else:
+            self.Mesh = Object
+            self.size = size
+            self.Background = Background
+
+    def _Draw(self):
+        Name = 'Frame2'
+        Detail = 100
+        try:
+            path = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Sacra/Renderer/CurrentFrame', Name + '.png')
+        except Exception as E:
+            raise E
+        Mesh = self.Mesh.Mesh
+        def Helper(tri, image):
+            #vec1 = (tri[0] * 100) + vec3d(self.size[0]/500, self.size[1]/500, 0) * 10
+            vec1 = (tri[0] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
+            vec2 = (tri[1] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
+            vec3 = (tri[2] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
+            image.line([(vec1[0], vec1[1]), (vec2[0], vec2[1])])
+            image.line([(vec2[0], vec2[1]), (vec3[0], vec3[1])])
+            image.line([(vec1[0], vec1[1]), (vec3[0], vec3[1])])
+        with Image.new("RGB", self.size) as file:
+            image = ImageDraw.Draw(file)
+            for i in range(len(Mesh)):
+                Helper(Mesh[i], image)
+            try:
+                file.save(path)
+            except Exception as E:
+                raise E
+
+
+
+
+Tetra = MeshObject3d()._setter('tetrahydron')
+TetraRender = Renderer2(Tetra)._Draw()
