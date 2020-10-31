@@ -6,6 +6,7 @@ from SacraMathEngine import *
 from PIL import Image, ImageDraw
 import time
 from concurrent.futures import ProcessPoolExecutor
+from math import cos, sin
 #Will use above import too speed up the rendering time
 #Will use exec as input in editor
 
@@ -94,15 +95,23 @@ Cube = Cube + vec3d(1,1,1)
 """
 #Renderer(Cube).DrawObject(Detail = 1000)
 class Renderer2():
-    def __init__(self, Object, Background = None, size = (1000, 1000)):
+    def __init__(self, Object, Background = None, size = (1000, 1000), Viewer = None):
         if not isinstance(Object, MeshObject3d):
             raise TypeError('[System]: Mesh object is of wrong format')
         else:
             self.Mesh = Object
             self.size = size
             self.Background = Background
+            if Viewer == None:
+                self.Viewer = vec3d(-10,-10,-10)
+            else:
+                if isinstance(Viewer, vec3d):
+                    self.Viwer = Viewer
+                else:
+                    print(RenderError('[System]: Cant compute Viwers position, setting it to <(-10, -10, -10)>'))
+                    self.Viewer = vec3d(-10,-10,-10)
 
-    def _Draw(self):
+    def _Draw(self, EVector = None, Orientation = None):
         Name = 'Frame2'
         Detail = 100
         try:
@@ -110,11 +119,34 @@ class Renderer2():
         except Exception as E:
             raise E
         Mesh = self.Mesh.Mesh
+        def Projection(Vector, Orientation = vec3d(0,0,0), EVector = vec3d(100,100,100)):
+            """Perspective projection formula for each point."""
+            vec1 = Vector
+            vec2 = self.Viewer
+            if not isinstance(Orientation, (list, tuple, vec3d)):
+                raise TypeError('[Orientation is of wrong type]')
+            matrix1 = matrix3d(vec3d(1,0,0), vec3d(0, cos(Orientation[0]), sin(Orientation[0])), vec3d(0,-sin(Orientation[0]), cos(Orientation[1])))
+            matrix2 = matrix3d(vec3d(cos(Orientation[1]), 0 , -sin(Orientation[1])), vec3d(0,1,0), vec3d(sin(Orientation[1]), 0, cos(Orientation[1])))
+            matrix3 = matrix3d(vec3d(cos(Orientation[2]), sin(Orientation[2]), 0), vec3d(-sin(Orientation[2]), cos(Orientation[2]), 0), vec3d(0,0,1))
+            positionvector = vec1 - vec2
+            ProjectionMatrix = ((matrix1 * matrix2) * matrix3) * positionvector
+            ProjectionVector = vec3d(EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[0] + EVector[0], EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[1] + EVector[1], 0)
+            return ProjectionVector
         def Helper(tri, image):
             #vec1 = (tri[0] * 100) + vec3d(self.size[0]/500, self.size[1]/500, 0) * 10
-            vec1 = (tri[0] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
-            vec2 = (tri[1] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
-            vec3 = (tri[2] * 100) + vec3d(self.size[0]/self.size[1], self.size[1]/self.size[0], 0) * 100
+            if EVector == None or Orientation == None:
+                vec1 = Projection(tri[0])
+                vec2 = Projection(tri[1])
+                vec3 = Projection(tri[2])
+            else:
+                if isinstance(EVector, vec3d) and Orientation == None:
+                    vec1 = Projection(tri[0], EVector = EVector)
+                    vec2 = Projection(tri[1], EVector = EVector)
+                    vec3 = Projection(tri[2], EVector = EVector)
+                elif isinstance(EVector, vec3d) and isinstance(Orientation, vec3d):
+                    vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)
+                    vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)
+                    vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)
             image.line([(vec1[0], vec1[1]), (vec2[0], vec2[1])])
             image.line([(vec2[0], vec2[1]), (vec3[0], vec3[1])])
             image.line([(vec1[0], vec1[1]), (vec3[0], vec3[1])])
@@ -131,4 +163,7 @@ class Renderer2():
 
 
 Tetra = MeshObject3d()._setter('tetrahydron')
-TetraRender = Renderer2(Tetra)._Draw()
+Tetra = Tetra * 10
+TetraRender = Renderer2(Tetra)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0))
+#Cube = MeshObject3d()._setter('Cube') * 10
+#CubeRenderer = Renderer2(Cube)._Draw(EVector = vec3d(10,10,10), Orientation = vec3d(25,50,0))

@@ -118,7 +118,7 @@ class Application(tk.Frame):
 
     def Viewer(self):
         Directory = os.getcwd()
-        FrameFile = os.path.join(Directory, 'Sacra/Renderer/CurrentFrame/Frame.png')
+        FrameFile = os.path.join(Directory, 'Sacra/Renderer/CurrentFrame/Frame2.png')
         img = ImageTk.PhotoImage(Image.open(FrameFile))
         label = tk.Label(master = self.master, image = img)
         label.image = img
@@ -127,8 +127,9 @@ class Application(tk.Frame):
     def RenderFunction(self):
         try:
             Mesh = self.ActiveObject
-            RenderObject = Renderer(Mesh)
-            RenderObject.DrawObject()
+            #RenderObject = Renderer(Mesh)
+            #RenderObject.DrawObject()
+            RenderMesh = Renderer2(Mesh)._Draw()
         except:
             print("Somethings wrong")
 
@@ -149,7 +150,7 @@ class Application(tk.Frame):
         self.ActiveFile.configure(text = self.CurrentFile)
         CurrentFile = self.CurrentFile
         try:
-            self.ActiveObject.SaveToJson(self.CurrentFile)
+            self.ActiveObject._saver(self.CurrentFile)
         except:
             print("Saving issue")
         self.ScaleMesh()
@@ -183,8 +184,8 @@ class Application(tk.Frame):
         Filename = Filename.split('.')
         Filename = Filename[0] #To retrieve the correct filename without any exentisons.
         self.CurrentFile = Filename
-        self.ActiveObject = me.MeshObject()
-        self.CurrentMesh = self.ActiveObject.setter(self.CurrentFile)
+        self.ActiveObject = me.MeshObject3d()
+        self.CurrentMesh = self.ActiveObject._setter(self.CurrentFile)
         self.Update()
 
     def NewFile(self):
@@ -336,7 +337,7 @@ class Application(tk.Frame):
         else:
             try:
                 filename = self.CurrentFile.split('/')
-                Data = MeshObject()
+                Data = MeshObject3d()
                 Data(filename[-1])
             except:
                 raise LoadError("[System]: Can't load current file.")
