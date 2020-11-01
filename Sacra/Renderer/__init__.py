@@ -1,3 +1,3 @@
-from .Renderer import Renderer, RenderError
+from .Renderer import Renderer, RenderError, Renderer2
 from .Materials import Stone, Pinewood, Marble
 from .Lightsource import Lightsource

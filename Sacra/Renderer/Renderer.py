@@ -132,25 +132,44 @@ class Renderer2():
             ProjectionMatrix = ((matrix1 * matrix2) * matrix3) * positionvector
             ProjectionVector = vec3d(EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[0] + EVector[0], EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[1] + EVector[1], 0)
             return ProjectionVector
-        def Helper(tri, image):
-            #vec1 = (tri[0] * 100) + vec3d(self.size[0]/500, self.size[1]/500, 0) * 10
+
+        def NormCalculator(tri):
+            if not isinstance(tri, Triangle):
+                raise TypeError('[System]: Filler cant execute due to not having input as Triangle-object')
+            else:
+                Viewpoint = self.Viewer.normalize()
+                norm = tri.normvector().normalize()
+                normscalar = abs(norm.dot(Viewpoint))
+                return normscalar
+
+        def Helper(tri, image, Colour = None):
+            """Draws each rectangle for the _Draw function"""
             if EVector == None or Orientation == None:
-                vec1 = Projection(tri[0])
-                vec2 = Projection(tri[1])
-                vec3 = Projection(tri[2])
+                vec1 = Projection(tri[0])._int()
+                vec2 = Projection(tri[1])._int()
+                vec3 = Projection(tri[2])._int()
             else:
                 if isinstance(EVector, vec3d) and Orientation == None:
-                    vec1 = Projection(tri[0], EVector = EVector)
-                    vec2 = Projection(tri[1], EVector = EVector)
-                    vec3 = Projection(tri[2], EVector = EVector)
+                    vec1 = Projection(tri[0], EVector = EVector)._int()
+                    vec2 = Projection(tri[1], EVector = EVector)._int()
+                    vec3 = Projection(tri[2], EVector = EVector)._int()
                 elif isinstance(EVector, vec3d) and isinstance(Orientation, vec3d):
-                    vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)
-                    vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)
-                    vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)
-            image.line([(vec1[0], vec1[1]), (vec2[0], vec2[1])])
-            image.line([(vec2[0], vec2[1]), (vec3[0], vec3[1])])
-            image.line([(vec1[0], vec1[1]), (vec3[0], vec3[1])])
-        with Image.new("RGB", self.size) as file:
+                    vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)._int()
+                    vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)._int()
+                    vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)._int()
+            NormValue = NormCalculator(tri)
+            if Colour == None:
+                Filler = (int(255 * NormValue), int(255 * NormValue), int(255 * NormValue))
+            else:
+                pass
+            image.polygon(((vec1[0], vec1[1]), (vec2[0], vec2[1]), (vec3[0], vec3[1])), fill = Filler, outline = 1)
+            image.line(((vec1[0], vec1[1]), (vec2[0], vec2[1])), width = 1, fill = (0,0,0))
+            #image.line((vec1[0], vec1[1], vec2[0], vec2[1]), width = 1, fill = (255,0,0))
+            #image.line((vec2[0], vec2[1], vec3[0], vec3[1]), width = 1, fill = (255,0,0))
+            #image.line((vec3[0], vec3[1], vec1[0], vec1[1]), width = 1, fill = (255,0,0))
+            image.line(((vec2[0], vec2[1]), (vec3[0], vec3[1])), width = 1, fill = (0,0,0))
+            image.line(((vec1[0], vec1[1]), (vec3[0], vec3[1])), width = 1, fill = (0,0,0))
+        with Image.new("RGBA", self.size) as file:
             image = ImageDraw.Draw(file)
             for i in range(len(Mesh)):
                 Helper(Mesh[i], image)
@@ -160,10 +179,9 @@ class Renderer2():
                 raise E
 
 
-
-
-Tetra = MeshObject3d()._setter('tetrahydron')
-Tetra = Tetra * 10
-TetraRender = Renderer2(Tetra)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0))
-#Cube = MeshObject3d()._setter('Cube') * 10
-#CubeRenderer = Renderer2(Cube)._Draw(EVector = vec3d(10,10,10), Orientation = vec3d(25,50,0))
+if __name__ == '__main__' :
+    Tetra = MeshObject3d()._setter('tetrahydron')
+    Tetra = Tetra * 10
+    TetraRender = Renderer2(Tetra)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0.5))
+    #Cube = MeshObject3d()._setter('Cube') * 10
+    #CubeRenderer = Renderer2(Cube)._Draw(EVector = vec3d(10,10,10), Orientation = vec3d(25,50,0))

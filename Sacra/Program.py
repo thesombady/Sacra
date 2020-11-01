@@ -14,8 +14,6 @@ import Audio
 import functools
 #Add curser controle, and be ability of tabbing through triangles/verticies
 
-
-
 """
 Look over the saving functions. Have 3 saving functions. Might be abit overkill.
 
@@ -26,9 +24,6 @@ Audio.PlayAudio.PlaySound().Play('Exodus.mp3')#'wht?'
 
 class LoadError(Exception):
     pass
-
-
-
 
 
 class Application(tk.Frame):
@@ -127,11 +122,10 @@ class Application(tk.Frame):
     def RenderFunction(self):
         try:
             Mesh = self.ActiveObject
-            #RenderObject = Renderer(Mesh)
-            #RenderObject.DrawObject()
-            RenderMesh = Renderer2(Mesh)._Draw()
-        except:
-            print("Somethings wrong")
+            print(Mesh)
+            RenderMesh = Renderer2(Mesh)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0)
+        except Exception as E:
+            print(E)
 
 
     def StartUpPage(self):
@@ -150,10 +144,10 @@ class Application(tk.Frame):
         self.ActiveFile.configure(text = self.CurrentFile)
         CurrentFile = self.CurrentFile
         try:
-            self.ActiveObject._saver(self.CurrentFile)
+            #self.ActiveObject._saver(self.CurrentFile)
+            pass
         except:
             print("Saving issue")
-        self.ScaleMesh()
         self.RenderFunction()
         self.ShowInfo()
         self.Viewer()
@@ -184,7 +178,9 @@ class Application(tk.Frame):
         Filename = Filename.split('.')
         Filename = Filename[0] #To retrieve the correct filename without any exentisons.
         self.CurrentFile = Filename
+        print(Filename)
         self.ActiveObject = me.MeshObject3d()
+        print(self.ActiveObject)
         self.CurrentMesh = self.ActiveObject._setter(self.CurrentFile)
         self.Update()
 
@@ -226,7 +222,6 @@ class Application(tk.Frame):
         button = tk.Button(master = self.SavefileInterface, command = self.SaveCurrentFile)
         self.Update()
 
-
     def SaveCurrentFile(self):
         """Saves the current-file """
         file = self.SaveEntry.get()
@@ -239,9 +234,6 @@ class Application(tk.Frame):
             label = ttk.Label(master = self.SavefileInterface, text = "Cannot overide keyfiles, being Cube and Sphere")
             label.pack()
         self.Update()
-
-
-
 
     def SelectedVertex(self):
         pass #Either label verticies or click, paint the vertex red. so it is selected, and then type cooridates in 3d vector
@@ -293,20 +285,6 @@ class Application(tk.Frame):
         MoveDownV = tk.Button(master = MoveButton, text = "Move down", command = MoveDown)
         MoveDownV.pack()
 
-
-
-
-
-    def ScaleMesh(self):
-        """
-        if self.ActiveObject != None:
-            ScalarValue = self.ScaleMeshValue.get()
-            try:
-                self.ActiveObject = self.ActiveObject * ScalarValue
-            except Exception as E:
-                raise E
-        """
-        pass
     def Sound(self, NameOfFile):
         pass #Using the import we can play any sound
 
@@ -314,11 +292,8 @@ class Application(tk.Frame):
         x,y = None, None
         return None
 
-
     def CallBack(self):
         print(f'Clicked at ({self.event.x}, {self.event.y}')
-
-
 
     def SelectVertex(self): #Will be implemented in GetMousePosition
         pass
