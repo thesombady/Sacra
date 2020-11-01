@@ -86,7 +86,7 @@ class Application(tk.Frame):
         #Add space and breaker
 
         ViewMenu.add_command(label = "View object")
-        ViewMenu.add_command(label = "Inspect object", command = self.ViewObject) #
+        ViewMenu.add_command(label = "Inspect object", command = self.InspectObject) #
         menubar.add_cascade(label = "View", menu = ViewMenu) #Add View commands
 
         self.master.config(menu=menubar)
@@ -121,9 +121,8 @@ class Application(tk.Frame):
 
     def RenderFunction(self):
         try:
-            Mesh = self.ActiveObject
-            print(Mesh)
-            RenderMesh = Renderer2(Mesh)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0)
+            Mesh = self.CurrentMesh
+            RenderMesh = Renderer2(Mesh)._Draw(EVector = me.vec3d(100,100,100), Orientation=me.vec3d(0,0,0))
         except Exception as E:
             print(E)
 
@@ -154,16 +153,17 @@ class Application(tk.Frame):
 
 
     def ShowInfo(self):
-        ListBoxOfMesh = tk.Listbox(master = self.master)
+        ListBoxOfMesh = tk.Listbox(master = self.master, width = 30)
         try:
-            for i in range(len(self.CurrentMesh)):
-                for j in range(len(self.CurrentMesh[i])):
-                    ListBoxOfMesh.insert(j, self.ActiveObject[i][j])
+            Mesh = self.CurrentMesh
+            for i in range(len(Mesh)):
+                ListBoxOfMesh.insert(i, Mesh[i])
         except:
             pass
         def Remove():
             Value
             ListBoxOfMesh.delete(ANCHOR)
+            self.ShowInfo()
         ListBoxOfMesh.place(x = 20,y = 100)
         RemoveButton = tk.Button(master = self.master, text = "Remove", command = Remove)
         RemoveButton.place(x = 20, y = 300)
@@ -178,9 +178,7 @@ class Application(tk.Frame):
         Filename = Filename.split('.')
         Filename = Filename[0] #To retrieve the correct filename without any exentisons.
         self.CurrentFile = Filename
-        print(Filename)
         self.ActiveObject = me.MeshObject3d()
-        print(self.ActiveObject)
         self.CurrentMesh = self.ActiveObject._setter(self.CurrentFile)
         self.Update()
 
@@ -299,12 +297,26 @@ class Application(tk.Frame):
         pass
 
 
-    def ViewObject(self): #MenuFunction
+    def InspectObject(self): #MenuFunction
         """Linked to the View Menu. """
-        self.ViewObjectInterface = tk.Toplevel()
-        Button = ttk.Button(master = self.ViewObjectInterface, text = "Exit", command = self.ViewObjectInterface.destroy)
+        InspectObjectInterface = tk.Toplevel()
+        Button = ttk.Button(master = InspectObjectInterface, text = "Exit", command = InspectObjectInterface.destroy)
         Button.pack()
-        #Will implement view object
+        Mesh = me.MeshObject3d()._setter(self.CurrentFile)
+        MeshRenderer = Renderer2(Mesh)
+        Directory = os.getcwd()
+        Spinx = ttk.Button(master = InspectObjectInterface, text = "Spin in x direction")
+        Spinx.pack()
+        Spiny = ttk.Button(master = InspectObjectInterface, text = "Spin in y direction")
+        Spiny.pack()
+        Spinz = ttk.Button(master = InspectObjectInterface, text = "Spin in z direction")
+        Spinz.pack()
+        FrameFile = os.path.join(Directory, 'Sacra/Renderer/CurrentFrame/Frame2.png')
+        load = Image.open(FrameFile)
+        render = ImageTk.PhotoImage(load)
+        image = tk.Label(master = InspectObjectInterface, image = render)
+        image.image = render
+        image.pack()
 
     def PreviedWindow(self, file):
         if isinstance(file, None):
