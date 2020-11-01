@@ -178,6 +178,9 @@ class Renderer2():
             except Exception as E:
                 raise E
 
+    def _Shader(self):
+        pass
+
 
 if __name__ == '__main__' :
     Tetra = MeshObject3d()._setter('tetrahydron')
