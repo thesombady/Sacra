@@ -183,8 +183,19 @@ class Renderer2():
 
 
 if __name__ == '__main__' :
-    Tetra = MeshObject3d()._setter('tetrahydron')
-    Tetra = Tetra * 10
-    TetraRender = Renderer2(Tetra)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0.5))
+    #Tetra = MeshObject3d()._setter('tetrahydron')
+    #Tetra = Tetra * 10
+    #TetraRender = Renderer2(Tetra)._Draw(EVector = vec3d(100,100,100), Orientation=vec3d(0,0,0.5))
     #Cube = MeshObject3d()._setter('Cube') * 10
     #CubeRenderer = Renderer2(Cube)._Draw(EVector = vec3d(10,10,10), Orientation = vec3d(25,50,0))
+    Cube1 = MeshObject3d()
+    triangle1 = Triangle(vec3d(0,0,0), vec3d(0,1q,0), vec3d(1,0,0))#Front
+    triangle2 = Triangle(vec3d(1,0,0), vec3d(1,1,0), vec3d(0,1,0))
+    triangle3 = Triangle(vec3d(0,0,0), vec3d(1,0,0), vec3d(1,0,1))#Bottom
+    triangle4 = Triangle(vec3d(1,0,1), vec3d(0,0,1), vec3d(0,0,0))
+
+    #triangle3 = Triangle(vec3d(0,1,0), vec3d(0,1,1), vec3d(0,0,1))#East
+    #triangle4 = Triangle(vec3d(0,0,1), vec3d(0,0,0), vec3d(0,1,0))
+    #triangle5 = Triangle(vec3d(0,1,0), vec3d(1,1,0), vec3d(1,1,1))#Top
+    #triangle6 = Triangle(vec3d(1,1,1), vec3d(0,1,0), vec3d(1,1,0))
+    #triangle7 = Triangle(vec3d(1,1,0), vec3d(1,0,1), vec3d())#West
