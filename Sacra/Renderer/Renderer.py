@@ -111,8 +111,11 @@ class Renderer2():
                     print(RenderError('[System]: Cant compute Viwers position, setting it to <(-10, -10, -10)>'))
                     self.Viewer = vec3d(-10,-10,-10)
 
-    def _Draw(self, EVector = None, Orientation = None):
-        Name = 'Frame2'
+    def _Draw(self, EVector = None, Orientation = None, Frame = None):
+        if Frame == None:
+            Name = 'Frame2'
+        else:
+            Name = Frame
         Detail = 100
         try:
             path = os.path.join('/Users/andreasevensen/Documents/GitHub/Sacra/Sacra/Renderer/CurrentFrame', Name + '.png')
