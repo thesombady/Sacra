@@ -111,7 +111,7 @@ class Renderer2():
                     print(RenderError('[System]: Cant compute Viwers position, setting it to <(-10, -10, -10)>'))
                     self.Viewer = vec3d(-10,-10,-10)
 
-    def _Draw(self, EVector = None, Orientation = None, Frame = None):
+    def _Draw(self, EVector = vec3d(100,100,100), Orientation = vec3d(0,0,0), Frame = None):
         if Frame == None:
             Name = 'Frame2'
         else:
@@ -122,7 +122,7 @@ class Renderer2():
         except Exception as E:
             raise E
         Mesh = self.Mesh.Mesh
-        def Projection(Vector, Orientation = vec3d(0,0,0), EVector = vec3d(100,100,100)):
+        def Projection(Vector, EVector = vec3d(100,100,100), Orientation = vec3d(0,0,0)):
             """Perspective projection formula for each point."""
             vec1 = Vector
             vec2 = self.Viewer
@@ -143,11 +143,16 @@ class Renderer2():
                 Viewpoint = self.Viewer.normalize()
                 norm = tri.normvector().normalize()
                 normscalar = abs(norm.dot(Viewpoint))
+                print(normscalar)
                 return normscalar
 
         def Helper(tri, image, Colour = None):
             """Draws each rectangle for the _Draw function"""
-            if EVector == None or Orientation == None:
+            vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)._int()
+            vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)._int()
+            vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)._int()
+            """
+            if EVector == None and Orientation == None:
                 vec1 = Projection(tri[0])._int()
                 vec2 = Projection(tri[1])._int()
                 vec3 = Projection(tri[2])._int()
@@ -160,7 +165,13 @@ class Renderer2():
                     vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)._int()
                     vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)._int()
                     vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)._int()
-            NormValue = NormCalculator(tri)
+            """
+            try:
+                NormValue = NormCalculator(tri)
+                print("computed", tri)
+            except:
+                print(tri, "Could not compute")
+                Normvalue = 1
             if Colour == None:
                 Filler = (int(255 * NormValue), int(255 * NormValue), int(255 * NormValue))
             else:
