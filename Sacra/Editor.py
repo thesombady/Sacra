@@ -11,20 +11,59 @@ import SacraMathEngine as me
 import SacraPhysicsEngine as pe
 #import Audio
 import threading
+global RotateMesh
+#from EditorApps import Construct
 
 events_list = []
+Size = (1000, 600)
+def RotateMesh():
+    print("called Rotate")
+
+def UpdateFrame(func):
+    """A Decorator to update frames"""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args)
+            Window._PlaceFrame()
+        except Exception as e:
+            raise e
+    return wrapper
+
+class RenderWindow(tk.Frame):
+    """A small class to have the allow for rendering."""
+    def __init__(self, master, Size = (1000, 600)):
+        super().__init__(master)
+        self.Size = (Size[0]/2, Size[1])
+        style = ttk.Style()
+        style.configure("BW.TLabel", foreground="black", background="white", font = ('Helvetica', 12))
+        self.master = master
+        self._PlaceFrame()
+
+    def _PlaceFrame(self, frame = "Frame2.png"):
+        try:
+            Path = os.path.join(os.getcwd(), f"Sacra/Renderer/CurrentFrame/{frame}")
+            img = ImageTk.PhotoImage(Image.open(Path))
+            label = tk.Label(master = self.master, image = img)
+            label.image = img
+            label.place(x = self.Size[0], y = 0)
+        except Exception as e:
+            raise e
+
+
+
 
 def Render(Mesh):
     global RenderObject
-    RenderObject = Renderer2(Mesh)
+    RenderObject = Renderer2(Mesh, size = (int(Size[0]/2), Size[1]))
     RenderObject._Draw()
-    print(Mesh)
-    print("Done")
 
 def _OpenFile():
+    global Mesh
     LocalDirectory = os.path.join(os.getcwd(), "Saves")
     filepath = filedialog.askopenfilename(initialdir = LocalDirectory,
     title = 'Select a file, Has to be .json format!')
+    print(filepath)
     if not filepath:
         return None
     else:
@@ -35,6 +74,9 @@ def _OpenFile():
         except Exception as e:
             raise e
     Render(Mesh)
+    Window = RenderWindow(App)
+    Window.place(x = int(Size[0]/2), y = 0)
+
 
 
 
@@ -46,14 +88,19 @@ def handle_click(event):
 
 
 
-Window = tk.Tk()
-Window.title("Sacra Game Engine")
-Window.geometry("1000x600")
+App = tk.Tk()
+App.title("Sacra Game Engine")
+App.geometry(f"{Size[0]}x{Size[1]}")
+#AllWidgets = Widgets(App, Size = Size)
+#AllWidgets.place(x = 0, y = -10)
+Construct(App)
 
 
 
+#Rotate = ttk.Button(master = App, text = "Rotate")
+#Rotate.place(x = 10, y = 0)
 
-menubar = tk.Menu(Window)
+menubar = tk.Menu(App)
 
 FileMenu = tk.Menu(menubar)
 EditMenu = tk.Menu(menubar)
@@ -85,10 +132,8 @@ ViewMenu.add_command(label = "View object")
 ViewMenu.add_command(label = "Inspect object") #
 menubar.add_cascade(label = "View", menu = ViewMenu)
 
-Window.config(menu=menubar)
+App.config(menu=menubar)
 
-
-
-Window.bind("<x>", handle_keypress)
+App.bind("<x>", handle_keypress)
 #Open_Button = tk.Button(Window, text = "Open a file", command = _OpenFile).pack()
-Window.mainloop()
+App.mainloop()
