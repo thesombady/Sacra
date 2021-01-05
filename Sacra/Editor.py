@@ -11,6 +11,7 @@ import SacraMathEngine as me
 import SacraPhysicsEngine as pe
 #import Audio
 import threading
+from EditorApps import Construct
 global RotateMesh
 #from EditorApps import Construct
 

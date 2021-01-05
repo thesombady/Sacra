@@ -15,6 +15,7 @@ class RenderError(Exception):
 
 #Renderer(Cube).DrawObject(Detail = 1000)
 class Renderer2():
+    MoveVector = vec3d(10,10,0)
     def __init__(self, Object, Background = None, size = (1000, 1000), Viewer = None):
         if not isinstance(Object, MeshObject3d):
             raise TypeError('[System]: Mesh object is of wrong format')
@@ -30,6 +31,7 @@ class Renderer2():
                 else:
                     print(RenderError('[System]: Cant compute Viwers position, setting it to <(-10, -10, -10)>'))
                     self.Viewer = vec3d(-10,-10,-10)
+
 
     def _Draw(self, EVector = vec3d(100,100,100), Orientation = vec3d(0,0,0), Frame = None):
         if Frame == None:
@@ -53,8 +55,8 @@ class Renderer2():
             matrix3 = matrix3d(vec3d(cos(Orientation[2]), sin(Orientation[2]), 0), vec3d(-sin(Orientation[2]), cos(Orientation[2]), 0), vec3d(0,0,1))
             positionvector = vec1 - vec2
             ProjectionMatrix = ((matrix1 * matrix2) * matrix3) * positionvector
-            ProjectionVector = vec3d(EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[0] + EVector[0], EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[1] + EVector[1], 0)
-            return ProjectionVector
+            ProjectionVector = vec3d(-EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[0] + EVector[0], -EVector[2]/ProjectionMatrix[2] * ProjectionMatrix[1] + EVector[1], 0)
+            return ProjectionVector + self.MoveVector
 
         def NormCalculator(tri):
             if not isinstance(tri, Triangle):
@@ -71,21 +73,6 @@ class Renderer2():
             vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)._int()
             vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)._int()
             vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)._int()
-            """
-            if EVector == None and Orientation == None:
-                vec1 = Projection(tri[0])._int()
-                vec2 = Projection(tri[1])._int()
-                vec3 = Projection(tri[2])._int()
-            else:
-                if isinstance(EVector, vec3d) and Orientation == None:
-                    vec1 = Projection(tri[0], EVector = EVector)._int()
-                    vec2 = Projection(tri[1], EVector = EVector)._int()
-                    vec3 = Projection(tri[2], EVector = EVector)._int()
-                elif isinstance(EVector, vec3d) and isinstance(Orientation, vec3d):
-                    vec1 = Projection(tri[0], EVector = EVector, Orientation = Orientation)._int()
-                    vec2 = Projection(tri[1], EVector = EVector, Orientation = Orientation)._int()
-                    vec3 = Projection(tri[2], EVector = EVector, Orientation = Orientation)._int()
-            """
             try:
                 NormValue = NormCalculator(tri)
                 #print("computed", tri)
